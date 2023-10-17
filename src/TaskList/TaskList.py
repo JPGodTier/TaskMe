@@ -112,8 +112,11 @@ class TaskList:
             priority (str): Priority of the new task (LOW, MEDIUM, HIGH)
             description (str): Description of the new task
         """
-        new_task = Task(assignee, task_name, due_date, priority, description, "PENDING")
-        self.__task_list.append(new_task)
+        if priority in ['LOW', 'MEDIUM', 'HIGH']:
+            new_task = Task(assignee, task_name, due_date, priority, description, "PENDING")
+            self.__task_list.append(new_task)
+        else:
+            print("\nNew task priority not spelled correctly")
     
     # -----------------------------------------------------------------------------
     # remove_task
@@ -284,6 +287,19 @@ class TaskList:
         print("-" * 100)
 
     # -----------------------------------------------------------------------------
+    # display_task_description
+    # -----------------------------------------------------------------------------
+    def display_task_description(self, task_id: int) -> bool:
+        is_displayed = False
+        try:
+            print(f"\n{task_id}. {self.__task_list[task_id-1].get_name()} - Description: {self.__task_list[task_id-1].get_description()}")
+            is_displayed = True
+        except Exception as e:
+            print(f"Error : {e}")
+        
+        return is_displayed
+
+    # -----------------------------------------------------------------------------
     # get_tasks
     # -----------------------------------------------------------------------------
     def get_tasks(self) -> list:
@@ -330,5 +346,7 @@ class TaskList:
             list: List of tags of the tasklist
         """
         return self.__task_list_tags
+    
+
     
 

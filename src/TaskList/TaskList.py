@@ -1,3 +1,4 @@
+from src import logger
 from typing import List
 
 from src.TaskList.Task import Task
@@ -10,16 +11,15 @@ class TaskList:
     def __init__(self, task_list_name: str, owners: List[str], tags: List[str]) -> None:
         """ Initializes a new TaskList object which will contain a list of Task object
 
-        Attributes
-        ----------
-        name (str):
-            Name of the new TaskList
-        owners (List[str]): str
-            List of owner(s) of the new TaskList
-        tags (List[str]): str
-            Tag(s) to be added to the new tasklist
+        Args:
+            task_list_name:Name of the new TaskList
+            owners:List of owner(s) of the new TaskList
+            tags:Tag(s) to be added to the new tasklist
+
+        Return:
+             None
         """
-        # Attributes init
+        # Args init
         self.__name = task_list_name
         self.__owners = owners
         self.__tags = tags
@@ -27,147 +27,97 @@ class TaskList:
         self.__tasks = []
 
     # -----------------------------------------------------------------------------
-    # update_name
+    # __add_task_from_object
     # -----------------------------------------------------------------------------
-    def update_name(self, new_name: str) -> None:
-        """ Updates the name of the Task List
+    def __add_task_from_object(self, task_obj):
+        """ Adds a Task object to the internal TaskList
 
         Args:
-            new_name: new name of the task list
-
-        Returns: None
-
-        """
-        self.__name = new_name
-
-    # -----------------------------------------------------------------------------
-    # add_owner
-    # -----------------------------------------------------------------------------
-    def add_owner(self, owner_name: str) -> None:
-        """ Adds an owner to the tasklist
-
-        Args:
-            owner_name (str): Owner name to be added
+            task_obj: Task Object
 
         Returns:
             None
-
-        Raises:
-            ValueError: if the owner already exists
         """
-        if owner_name in self.__owners:
-            # TODO: raising an exception might be too harsh
-            raise ValueError(f"Owner '{owner_name}' already exists.")
-        self.__owners.append(owner_name)
-
-    # -----------------------------------------------------------------------------
-    # remove_owner
-    # -----------------------------------------------------------------------------
-    def remove_owner(self, owner_name: str) -> None:
-        """ Removes an owner from the task list
-
-        Args:
-            owner_name (str): Owner name to be removed
-
-        Returns:
-            None
-
-        Raises:
-             ValueError: If owner doesn't exist.
-        """
-        if owner_name not in self.__owners:
-            # TODO: raising an exception might be too harsh
-            raise ValueError(f"Owner '{owner_name}' doesn't exists.")
-        self.__owners.remove(owner_name)
-
-    # -----------------------------------------------------------------------------
-    # add_tag
-    # -----------------------------------------------------------------------------
-    def add_tag(self, tag_name: str) -> None:
-        """ Adds a tag to the task list
-
-        Args:
-            tag_name (str): Tag Name to be added
-
-        Returns:
-            None
-
-        Raises:
-            ValueError: If tag already exists
-        """
-        if tag_name in self.__tags:
-            # TODO: raising an exception might be too harsh
-            raise ValueError(f"Tag '{tag_name}' already exists.")
-        self.__tags.append(tag_name)
-
-    # -----------------------------------------------------------------------------
-    # remove_tag
-    # -----------------------------------------------------------------------------
-    def remove_tag(self, tag_name: str) -> None:
-        """ Removes a tag to the task list
-
-        Args:
-            tag_name (str): Tag Name to be added
-
-        Returns:
-            None
-
-        Raises:
-            ValueError: If tag doesn't exist.
-        """
-        if tag_name not in self.__tags:
-            # TODO: raising an exception might be too harsh
-            raise ValueError(f"Tag '{tag_name}' doesn't exists.")
-        self.__tags.remove(tag_name)
+        if not isinstance(task_obj, Task):
+            logger.error(f"Expected a Task object.")
+            raise ValueError("Expected a Task object.")
+        self.__tasks.append(task_obj)
 
     # -----------------------------------------------------------------------------
     # add_task
     # -----------------------------------------------------------------------------
-    def add_task(self, assignee: str, task_name: str, due_date: str, priority: str, description: str) -> None:
-        """
-        Add a task to the tasklist
+    def add_task(self, **kwargs) -> None:
+        """Generic method to add a task to the task list.
 
         Args:
-            assignee (str): Assignee name of the new task
-            task_name (str): Name of the new task
-            due_date (str): Date and time of creation of the new task
-            priority (str): Priority of the new task (LOW, MEDIUM, HIGH)
-            description (str): Description of the new task
+            **kwargs: Keyword arguments representing the properties of the task to add.
+
+        Returns:
+            None
         """
-        if priority not in ['LOW', 'MEDIUM', 'HIGH']:
-            raise ValueError(f"Invalid priority '{priority}'. Valid values are 'LOW', 'MEDIUM', 'HIGH'.")
-        new_task = Task(assignee, task_name, due_date, priority, description, "PENDING")
+        assignee = kwargs.get("assignee")
+        name = kwargs.get("name")
+        due_date = kwargs.get("due_date")
+        priority = kwargs.get("priority")
+        description = kwargs.get("description")
+
+        new_task = Task(assignee, name, due_date, priority, description, "PENDING")
+
         self.__tasks.append(new_task)
+        logger.debug(f"Task '{name}' created successfully.")
 
     # -----------------------------------------------------------------------------
     # remove_task
     # -----------------------------------------------------------------------------
     def remove_task(self, task_id: int) -> None:
-        """
-        Remove task from the tasklist
+        """ Removes task from the tasklist.
 
         Args:
-            task_id (int): ID of the task to be removed
+            task_id (int): ID of the task to be removed.
 
         Returns:
             None
         """
         if 0 < task_id <= len(self.__tasks):
             self.__tasks.pop(task_id - 1)
+            logger.debug(f"Task #{task_id} removed.")
         else:
-            raise ValueError(f"Task ID '{task_id}' is out of range.")
+            logger.error(f"Task ID #{task_id} is out of range.")
+            raise ValueError(f"Task ID #{task_id} is out of range.")
+
+    # -----------------------------------------------------------------------------
+    # update_tasklist
+    # -----------------------------------------------------------------------------
+    def update_tasklist(self, **kwargs) -> None:
+        """ Generic method to update a task list's properties
+
+        Args:
+            **kwargs: Keyword arguments representing the task list properties to update.
+
+        Returns:
+            None
+        """
+        attributes_mapping = {
+            "name": "__name",
+            "owners": "__owners",
+            "tags": "__tags"
+        }
+
+        for key, attr in attributes_mapping.items():
+            if key in kwargs:
+                setattr(self, attr, kwargs[key])
 
     # -----------------------------------------------------------------------------
     # update_task
     # -----------------------------------------------------------------------------
     def update_task(self, task_id: int, **kwargs) -> None:
-        """Generic method to update a task's properties.
+        """ Generic method to update a task's properties.
 
         Args:
-            task_id (int): ID of the task to update.
+            task_id: ID of the task to update.
             **kwargs: Keyword arguments representing the task properties to update.
 
-        Return:
+        Returns:
             None
         """
         if 0 < task_id <= len(self.__tasks):
@@ -175,93 +125,102 @@ class TaskList:
 
             for key, value in kwargs.items():
                 if hasattr(task, key):
-                    setattr(task, key, value)
+                    getattr(task, key)(value)
                 else:
+                    logger.error(f"Task ID '{task_id}' is out of range.")
                     raise ValueError(f"Task does not have a setter for '{key}'.")
         else:
-            raise ValueError(f"Task ID '{task_id}' is out of range.")
+            logger.error(f"Task ID #{task_id} is out of range.")
+            raise ValueError(f"Task ID #{task_id} is out of range.")
 
     # -----------------------------------------------------------------------------
-    # get_tasks
+    # display_tasklist
     # -----------------------------------------------------------------------------
-    def get_tasks(self) -> List[Task]:
-        """ Returns the list of tasks
-
-        Returns:
-            List[Task]: List of tasks in the task list.
-        """
-        return self.__tasks
-
-    # -----------------------------------------------------------------------------
-    # get_name
-    # -----------------------------------------------------------------------------
-    def get_name(self) -> str:
-        """ Returns the name of the task list
-
-        Returns:
-            str: Name of the tasklist
-        """
-        return self.__name
-
-    # -----------------------------------------------------------------------------
-    # get_owners
-    # -----------------------------------------------------------------------------
-    def get_owners(self) -> List[str]:
-        """ Returns the list of owners of the task list
-
-        Returns:
-            List[str]: List of owners.
-        """
-        return self.__owners
-
-    # -----------------------------------------------------------------------------
-    # get_tags
-    # -----------------------------------------------------------------------------
-    def get_tags(self) -> List[str]:
-        """ Returns the list of tags associated with the task list.
-
-        Returns:
-            List[str]: List of tags.
-        """
-        return self.__tags
-
-    # -----------------------------------------------------------------------------
-    # display
-    # -----------------------------------------------------------------------------
-    def display(self) -> None:
-        """ Creates a default display of the tasklist
+    def display_tasklist(self) -> None:
+        """ Creates a default display of the task list.
 
         Returns:
             None
         """
-
-        print("\n" + "-" * 134)
+        print("\n" + "-" * 130)
+        print("\n" + "-" * 130)
         print(f"Todo List: {self.__name}")
         print(f"Owner(s): {', '.join(self.__owners)}")
         print(f"Tag(s): {', '.join(self.__tags)}")
-        print("-" * 134)
+        print("-" * 130)
 
         # Print table headers
-        headers = ['No.', 'Task', 'Status', 'Assignee', 'Due date', 'Priority']
-        print("".join([f"{header:<25}" for header in headers]))
+        headers = ['Task', 'Status', 'Assignee', 'Due date', 'Priority']
+        print(f"{'ID':<5}" + "".join([f"{header:<25}" for header in headers]))
+        print("-" * 130)
 
         # Print each task with its attributes
         for idx, task in enumerate(self.__tasks, 1):
-            print(f"{idx:<25}"
+            print(f"{idx:<5}"
                   f"{task.name:<25}"
                   f"{task.progress_status:<25}"
                   f"{task.assignee:<25}"
                   f"{task.due_date:<25}"
                   f"{task.priority}")
 
-        print("-" * 134)
+        print("-" * 130)
 
     # -----------------------------------------------------------------------------
     # display_task_description
     # -----------------------------------------------------------------------------
-    def display_task_description(self, task_id: int) -> None:
-        try:
-            print(f"\n{task_id}. {self.__tasks[task_id-1].name()} -"
-                  f" Description: {self.__tasks[task_id-1].description()}")
-        except Exception as e:
-            raise Exception(f"Error while displaying task description: {e}")
+    def display_task_description(self, task_id) -> None:
+        """ Creates a default display of the task description.
+
+        Args:
+            task_id: ID of the task to update.
+
+        Returns:
+            None
+        """
+        if 0 < task_id <= len(self.__tasks):
+            task = self.__tasks[task_id - 1]
+            print(f"\n{task_id}. {task.name} - "
+                  f"Description: {task.description}"
+                  )
+        else:
+            logger.error(f"Task ID #{task_id} is out of range.")
+            raise ValueError(f"Task ID '{task_id}' is out of range.")
+
+    # -----------------------------------------------------------------------------
+    # to_dict
+    # -----------------------------------------------------------------------------
+    def to_dict(self):
+        """ Dict representation of a TaskList object
+
+        Returns:
+            None
+        """
+        return {
+            "taskListName": self.__name,
+            "owners": self.__owners,
+            "tags": self.__tags,
+            "tasks": [task.to_dict() for task in self.__tasks]
+        }
+
+    # -----------------------------------------------------------------------------
+    # from_dict
+    # -----------------------------------------------------------------------------
+    @classmethod
+    def from_dict(cls, data):
+        """ Creates a TaskList Object from a given dictionary
+
+        Args:
+            data: dictionary data
+
+        Returns:
+            TaskList object
+        """
+        task_list = cls(data["taskListName"], data["owners"], data["tags"])
+
+        # If the task list possesses some tasks, load them into the task list
+        if "tasks" in data:
+            for task_data in data["tasks"]:
+                task = Task.from_dict(task_data)
+                task_list.__add_task_from_object(task)
+
+        return task_list

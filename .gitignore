@@ -1,1 +1,6 @@
 .venv
+*.pyc
+*.pkl
+.DS_Store
+logs
+.old

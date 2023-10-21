@@ -1,175 +1,174 @@
 from datetime import datetime
 
-
-class Progress:
-    PENDING = 0
-    IN_PROGRESS = 1
-    COMPLETED = 2
-
 # -----------------------------------------------------------------------------
 # Task
 # -----------------------------------------------------------------------------
 class Task:
     """
-    Task class, initializing it with assignee, task name, due date, priority, description and progress status.
-    Then creating necessary setters and getters.
+    Initialize a Task object of the TaskMe application
+
+    Attributes
+    ----------
+    assignee : str
+        The task assignee.
+    name : str
+        The task name.
+    due_date : str
+        A string indicating when the task is due, format is dd/mm/yyyy.
+    priority : str
+        Priority of the task, available values are LOW, MEDIUM or HIGH.
+    description : str
+        A brief description of the task.
+    progress_status : str
+        The task progress, available values are PENDING, IN_PROGRESS, COMPLETED.
+
+
+    Note
+    ----
+    When setting values for the 'priority' and 'progress_status' properties,
+    they must be one of the predefined valid options in 'VALID_PRIORITIES' and 'VALID_PROGRESS_STATUSES', respectively.
+
     """
-    def __init__(self, assignee: str, task_name: str, due_date: str, priority: str, description: str, progress_status: str) -> None:
+    # Validation variables
+    VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH']
+    VALID_PROGRESS_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED']
+
+    def __init__(self,
+                 assignee: str,
+                 name: str,
+                 due_date: str,
+                 priority: str,
+                 description: str,
+                 progress_status: str) -> None:
+
+        # Sanity checks for priority attribute
+        if priority not in self.VALID_PRIORITIES:
+            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
+                             f" and got {priority}")
+
+        # Sanity checks for progress_status attribute
+        if progress_status not in self.VALID_PROGRESS_STATUSES:
+            raise ValueError(f"Invalid progress_status value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
+                             f" and got {progress_status}")
+
+        # Attributes Init
         self.__assignee = assignee
-        self.__task_name = task_name
+        self.__name = name
         self.__due_date = due_date
         self.__priority = priority
         self.__description = description
         self.__progress_status = progress_status
 
     # -----------------------------------------------------------------------------
-    # set_assignee
+    # assignee getter & setter
     # -----------------------------------------------------------------------------
-    def set_assignee(self, new_assignee: str) -> None:
-        """
-        Set new assignee to the task
+    @property
+    def assignee(self) -> str:
+        return self.__assignee
 
-        Args:
-            new_assignee (str): Name of new assignee
-        """
+    @assignee.setter
+    def assignee(self, new_assignee: str) -> None:
         self.__assignee = new_assignee
 
     # -----------------------------------------------------------------------------
-    # set_task_name
+    # name getter & setter
     # -----------------------------------------------------------------------------
-    def set_task_name(self, new_name: str) -> None:
-        """
-        Set new name to the task
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    @name.setter
+    def name(self, new_name: str) -> None:
+        self.__name = new_name
+
+    # -----------------------------------------------------------------------------
+    # due_date getter & setter
+    # -----------------------------------------------------------------------------
+    @property
+    def due_date(self) -> str:
+        return self.__due_date
+
+    @due_date.setter
+    def due_date(self, new_due_date: str) -> None:
+        """ Sets the due date attribute
 
         Args:
-            new_name (str): New name of task
-        """
-        self.__task_name = new_name
+            new_due_date (str): new due_date to set
 
-    # -----------------------------------------------------------------------------
-    # set_due_date
-    # -----------------------------------------------------------------------------
-    def set_due_date(self, new_due_date: str) -> None:
-        """
-        Set new due date to the task
+        Returns:
+            None
 
-        Args:
-            new_due_date (str): New due date of task
+        Raises:
+            ValueError if new_due_date is not in the following format: dd/mm/YYYY
+
         """
+        try:
+            datetime.strptime(new_due_date, "%d/%m/%Y")
+        except ValueError:
+            raise ValueError("Invalid due_date format. Expected format is 'dd/mm/yyyy'.")
         self.__due_date = new_due_date
 
     # -----------------------------------------------------------------------------
-    # set_priority
+    # priority getter & setter
     # -----------------------------------------------------------------------------
-    def set_priority(self, new_priority: str) -> None:
-        """
-        Set new priority to the task
+    @property
+    def priority(self) -> str:
+        return self.__priority
+
+    @priority.setter
+    def priority(self, new_priority: str) -> None:
+        """ Sets the priority attribute
 
         Args:
-            new_priority (str): New priority of task
+            new_priority (str): new priority to set
+
+        Returns:
+            None
+
+        Raises:
+            ValueError if new_priority is not in the VALID_PRIORITIES expected values:
+            i.e 'LOW', 'MEDIUM' or 'HIGH'
+
         """
-        if new_priority in ['LOW', 'MEDIUM', 'HIGH']:
-            self.__priority = new_priority
-        else:
-            print("\nNew task priority not spelled correctly")
+        if new_priority not in self.VALID_PRIORITIES:
+            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
+                             f" and got {new_priority}")
+        self.__priority = new_priority
 
     # -----------------------------------------------------------------------------
-    # set_description
+    # description getter & setter
     # -----------------------------------------------------------------------------
-    def set_description(self, new_description: str) -> bool:
-        """
-        Set new description to the task
+    @property
+    def description(self) -> str:
+        return self.__description
 
-        Args:
-            new_description (str): New description of task
-        """
+    @description.setter
+    def description(self, new_description: str):
         self.__description = new_description
 
     # -----------------------------------------------------------------------------
-    # set_progress_status
+    # progress_status getter & setter
     # -----------------------------------------------------------------------------
-    def set_progress_status(self, new_progress: str) -> None:
-        """
-        Set new progress status to the task
+    @property
+    def progress_status(self) -> str:
+        return self.__progress_status
+
+    @progress_status.setter
+    def progress_status(self, new_status: str) -> None:
+        """ Sets the status attribute
 
         Args:
-            new_due_date (str): New due date of task
-        """
-        self.__progress_status = new_progress
-
-        if new_progress in ['PENDING', 'IN_PROGRESS', 'COMPLETED']:
-            self.__progress_status = new_progress
-        else:
-            print(f"\nNew progress status not spelled correctly")
-
-    # -----------------------------------------------------------------------------
-    # get_assignee
-    # -----------------------------------------------------------------------------
-    def get_assignee(self) -> str:
-        """
-        Get assignee of task
+            new_status (str): new status to set
 
         Returns:
-            str: Assignee of task
-        """
-        return self.__assignee
-    
-    # -----------------------------------------------------------------------------
-    # get_name
-    # -----------------------------------------------------------------------------
-    def get_name(self) -> str:
-        """
-        Get name of task
+            None
 
-        Returns:
-            str: Name of task
-        """
-        return self.__task_name
-    
-    # -----------------------------------------------------------------------------
-    # get_due_date
-    # -----------------------------------------------------------------------------
-    def get_due_date(self) -> str:
-        """
-        Get due date of task
+        Raises:
+            ValueError if new_status is not in the VALID_PROGRESS_STATUSES expected values:
+            i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
 
-        Returns:
-            str: Due date of task
         """
-        return self.__due_date
-    
-    # -----------------------------------------------------------------------------
-    # get_priority
-    # -----------------------------------------------------------------------------    
-    def get_priority(self) -> str:
-        """
-        Get priority of task
-
-        Returns:
-            str: Priority of task
-        """
-        return self.__priority
-    
-    # -----------------------------------------------------------------------------
-    # get_description
-    # -----------------------------------------------------------------------------
-    def get_description(self) -> str:
-        """
-        Get description of task
-
-        Returns:
-            str: Description of task
-        """        
-        return self.__description
-    
-    # -----------------------------------------------------------------------------
-    # get_status
-    # -----------------------------------------------------------------------------
-    def get_status(self) -> str:
-        """
-        Get status of task
-
-        Returns:
-            str: Status of task
-        """        
-        return self.__progress_status
+        if new_status not in self.VALID_PROGRESS_STATUSES:
+            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
+                             f" and got {new_status}")
+        self.__progress_status = new_status

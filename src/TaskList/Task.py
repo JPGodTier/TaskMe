@@ -172,3 +172,43 @@ class Task:
             raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
                              f" and got {new_status}")
         self.__progress_status = new_status
+
+    # -----------------------------------------------------------------------------
+    # to_dicts
+    # -----------------------------------------------------------------------------
+    def to_dict(self):
+        """ Dict representation of a Task object
+
+        Returns:
+            None
+        """
+        return {
+            "assignee": self.__assignee,
+            "name": self.__name,
+            "due_date": self.__due_date,
+            "priority": self.__priority,
+            "description": self.__description,
+            "progress_status": self.__progress_status
+        }
+
+    # -----------------------------------------------------------------------------
+    # to_dicts
+    # -----------------------------------------------------------------------------
+    @classmethod
+    def from_dict(cls, data_dict):
+        """ Creates a Task Object from a given dictionary
+
+        Args:
+            data_dict: data dictionary
+
+        Returns:
+            TaskList object
+        """
+        return cls(
+            assignee=data_dict["assignee"],
+            name=data_dict["name"],
+            due_date=data_dict["due_date"],
+            priority=data_dict["priority"],
+            description=data_dict["description"],
+            progress_status=data_dict["progress_status"]
+        )

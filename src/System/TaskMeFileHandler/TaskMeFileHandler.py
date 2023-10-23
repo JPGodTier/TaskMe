@@ -98,7 +98,8 @@ class TaskMeFileHandler:
                 updated = True
                 break
 
-        if not updated:  # If the TaskList wasn't found and updated, add it.
+        # If the TaskList wasn't found and updated, add it.
+        if not updated:
             # TODO: add logging
             all_task_lists.append(task_list_dict)
 

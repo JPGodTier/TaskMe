@@ -1,8 +1,13 @@
-from src.TaskList.TaskList import TaskList
+import logging
 import pickle
+from src.TaskList.TaskList import TaskList
 
+logging.basicConfig(filename='CliRunner.log', level=logging.INFO, 
+                    format='%(asctime)s:%(levelname)s:%(message)s')
 
 def main():
+
+    logging.info("CliRunner.py has been started.") 
 
     while True:
 
@@ -20,6 +25,7 @@ def main():
             task_list_description = input("Enter the description of the task list: ")
 
             task_list = TaskList(task_list_name, task_list_owners.split(", "), task_list_tags.split(", "), task_list_description)
+            logging.info(f"New task list \"{task_list_name}\" has been created.") 
             pass
 
         elif choice_0 == "2":
@@ -27,14 +33,17 @@ def main():
             try:
                 with open(f"{list_name}.pkl", "rb") as pkl_file:
                     task_list = pickle.load(pkl_file)
+                logging.info(f"Task list \"{list_name}\" has been opened.") 
                 print("Task list successfully open")
                 pass
             except Exception as e:
+                logging.error("Erreur rencontrée : {e}") 
                 print(f"Erreur rencontrée : {e}")
                 break
         
         elif choice_0 == "3":
             print("Goodbye!")
+            logging.info("CliRunner.py has been stopped.") 
             break
 
         else:
@@ -71,12 +80,14 @@ def main():
                         task_desc = input("Enter the task description: ")
 
                         task_list.add_task(task_owner, task_name, task_date, task_prio, task_desc)
+                        logging.info(f"New task \"{task_name}\" has been added to \"{task_list.get_task_list_name}\" task list.") 
                         break
 
                     elif choice_1 == "2":
                         task_no = int(input("Enter the task number you want to remove: "))
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.remove_task(task_no)
+                            logging.info(f"Task \"{task_name}\" has been removed \"{task_list.get_task_list_name}\" task list.")
                         else:
                             print("Invalid task number.")
 
@@ -115,6 +126,7 @@ def main():
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_assignee(task_no, new_task_assignee)
+                            logging.info(f"Task \"{task_no}\" has been new assignee \"{new_task_assignee}\".")
                         else:
                             print("Invalid task number.")
                         
@@ -126,6 +138,7 @@ def main():
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_name(task_no, new_task_name)
+                            logging.info(f"Task \"{task_no}\" has a new name \"{new_task_name}\".")
                         else:
                             print("Invalid task number.")
                         
@@ -137,6 +150,7 @@ def main():
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_due_date(task_no, new_task_due_date)
+                            logging.info(f"Task \"{task_no}\" has a new due date \"{new_task_due_date}\".")
                         else:
                             print("Invalid task number.")
                         
@@ -145,6 +159,7 @@ def main():
                     elif choice_3 == "4":
                         task_no = int(input("Enter the task number you want to update: "))
                         new_task_priority = input("Enter the new task priority level (LOW, MEDIUM, HIGH): ")
+                        logging.info(f"Task \"{task_no}\" has a new priority \"{new_task_priority}\".")
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_priority(task_no, new_task_priority)
@@ -160,6 +175,7 @@ def main():
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_description(task_no, new_task_description)
+                            logging.info(f"Task \"{task_no}\" has a new description \"{new_task_description}\".")
                         else:
                             print("Invalid task number.")
                         
@@ -171,6 +187,7 @@ def main():
                         
                         if type(task_no)==int and 1 <= task_no <= len(task_list.get_tasks()):
                             task_list.update_task_status(task_no, new_task_status)
+                            logging.info(f"Task \"{task_no}\" has a new status \"{new_task_status}\".")
                         else:
                             print("Invalid task number.")
                         
@@ -195,6 +212,7 @@ def main():
                     if choice_4 == "1":
                         new_task_list_name = input("Enter the new task list name: ")
                         task_list.update_task_list_name(new_task_list_name)
+                        logging.info(f"Task list {task_list.get_task_list_name} has a new name \"{new_task_list.get_task_list_name}\".")
 
                         break
 
@@ -210,11 +228,13 @@ def main():
                             if choice_4_1 == "1":
                                 add_owner_name = input("Enter the task list owner to be added: ")
                                 task_list.manage_owners(add_owner_name, "Add")
+                                logging.info(f"Task list {task_list.get_task_list_name} has a new owner \"{add_owner_name}\".")
                                 break
 
                             elif choice_4_1 == "2":
                                 remove_owner_name = input("Enter the task list owner to be removed: ")
                                 task_list.manage_owners(remove_owner_name, "Remove")
+                                logging.info(f"Owner \"{remove_owner_name}\" is removed from Task list {task_list.get_task_list_name}.")
                                 break
 
                             elif choice_4_1 == "3":
@@ -237,11 +257,13 @@ def main():
                             if choice_3_2 == "1":
                                 add_tag = input("Enter the task list tag to be added: ")
                                 task_list.manage_tags(add_tag, "Add")
+                                logging.info(f"Task list {task_list.get_task_list_name} has a new tag \"{add_tag}\".")
                                 break
 
                             elif choice_3_2 == "2":
                                 remove_tag = input("Enter the task list tag to be removed: ")
-                                task_list.manage_tags(remove_owner_name, "Remove")
+                                task_list.manage_tags(remove_tag, "Remove")
+                                logging.info(f"Tag \"{add_tag}\" is removed from Task list {task_list.get_task_list_name}.")
                                 break
 
                             elif choice_3_2 == "3":
@@ -255,6 +277,7 @@ def main():
                     elif choice_4 == "4":
                         new_task_list_description = input("Enter the new task list description: ")
                         task_list.update_task_list_description(new_task_list_description)
+                        logging.info(f"Task list {task_list.get_task_list_name} has a new description \"{new_task_list_description}\".")
 
                         break
                     
@@ -273,10 +296,12 @@ def main():
                         with open(f"{task_list.get_task_list_name()}.pkl", "wb") as pkl_file:
                             pickle.dump(task_list, pkl_file)
                         print("Modifications saved")
+                        logging.info(f"Task list {task_list.get_task_list_name} has a been saved.")
                         break
 
                     elif choice_5 == "N":
                         print("Modifications not saved")
+                        logging.info(f"Task list {task_list.get_task_list_name} has not been saved.")
                         break
 
                     else:

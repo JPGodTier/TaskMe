@@ -29,64 +29,75 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # add_task
     # -----------------------------------------------------------------------------
-    #TODO: modify with **kwargs
-    def add_task(self, args) -> bool:
-        is_added = False
-        try:
-            new_task = Task(args.assignee, 
-                            args.taskname, 
-                            args.duedate, 
-                            args.priority, 
-                            args.description, 
-                            "PENDING"
-                            )
-            self.__tasks.append(new_task)
-            print(f"Task '{args.taskname}' created")
-            is_added = True
-        except Exception as e:
-            print(f"Error while trying to add the task: {e}")
-        
-        return is_added
+    """Generic method to add a task to the task list.
 
+        Args
+        ----
+            **kwargs: Keyword arguments representing the properties of the task to add.
+
+        Return
+        -------
+            None
+        """
+    def add_task(self, **kwargs) -> None:
+
+        assignee = kwargs.get("assignee")
+        name = kwargs.get("name")
+        due_date = kwargs.get("due_date")
+        priority = kwargs.get("priority")
+        description = kwargs.get("description")
+
+        new_task = Task(assignee, name, due_date, priority, description, "PENDING")
+
+        self.__tasks.append(new_task)
+        print(f"Task '{name}' created")
+    
     # -----------------------------------------------------------------------------
     # remove_task
     # -----------------------------------------------------------------------------
     def remove_task(self, task_id: int) -> None:
-        """
-        Remove task from the tasklist
+        """Remove task from the tasklist.
 
-        Args:
-            task_id (int): ID of the task to be removed
+        Args
+        ----
+            task_id (int): ID of the task to be removed.
 
-        Returns:
+        Returns
+        -------
             None
         """
         if 0 < task_id <= len(self.__tasks):
             self.__tasks.pop(task_id - 1)
+            print(f"\nTask #{task_id} has been removed.")
         else:
             raise ValueError(f"Task ID '{task_id}' is out of range.")
 
     # -----------------------------------------------------------------------------
     # update_tasklist
     # -----------------------------------------------------------------------------
-    # TODO: Modify with **kwargs
-    def update_tasklist(self, args) -> bool:
+    def update_tasklist(self, **kwargs) -> None:
+        """Generic method to update a task list's properties.
+
+        Args
+        ----
+            **kwargs: Keyword arguments representing the task list properties to update.
+
+        Return
+        -------
+            None
+        """
         is_updated = False
-        try: 
-            if args.owners:
-                self.__owners = args.owners
-                is_updated = True
-                print(f"Task list '{args.name}' updated")
-            if args.tags:
-                self.__tags = args.tags
-                is_updated = True
-                print(f"Task list '{args.name}' updated")
-            if is_updated == False:
-                print("Nothing to be updated")
-        except Exception as e:
-            print(f"Error while trying to update the task list {args.name}: {e}")
-        
-        return is_updated
+
+        if kwargs.get("owners"):
+            self.__owners = kwargs.get("owners")
+            is_updated = True
+            print(f"Task list '{self.__name}' updated")
+        if kwargs.get("tags"):
+            self.__tags = kwargs.get("tags")
+            is_updated = True
+            print(f"Task list '{self.__name}' updated")
+        if is_updated == False:
+            print("Nothing to be updated")
 
     # -----------------------------------------------------------------------------
     # update_task
@@ -94,21 +105,46 @@ class TaskList:
     def update_task(self, task_id: int, **kwargs) -> None:
         """Generic method to update a task's properties.
 
-        Args:
+        Args
+        ----
             task_id (int): ID of the task to update.
             **kwargs: Keyword arguments representing the task properties to update.
 
-        Return:
+        Return
+        -------
             None
         """
         if 0 < task_id <= len(self.__tasks):
             task = self.__tasks[task_id - 1]
 
-            for key, value in kwargs.items():
-                if hasattr(task, key):
-                    setattr(task, key, value)
-                else:
-                    raise ValueError(f"Task does not have a setter for '{key}'.")
+            is_updated = False
+
+            if kwargs.get("assignee"):
+                task.assignee = kwargs.get("assignee")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if kwargs.get("name"):
+                task.name = kwargs.get("name")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if kwargs.get("due_date"):
+                task.due_date = kwargs.get("due_date")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if kwargs.get("priority"):
+                task.priority = kwargs.get("priority")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if kwargs.get("description"):
+                task.description = kwargs.get("description")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if kwargs.get("progress_status"):
+                task.progress_status = kwargs.get("progress_status")
+                is_updated = True
+                print(f"Task '{task.name}' updated")
+            if is_updated == False:
+                print("Nothing to be updated")
         else:
             raise ValueError(f"Task ID '{task_id}' is out of range.")
         
@@ -117,12 +153,12 @@ class TaskList:
     # -----------------------------------------------------------------------------
     def display_tasklist(self) -> None:
         """
-        Creates a default display of the task list
+        Creates a default display of the task list.
         """
 
         print("\n" + "-" * 130)
         print("\n" + "-" * 130)
-        print(f"Todo List: {self.__task_list_name}")
+        print(f"Todo List: {self.__name}")
         print(f"Owner(s): {', '.join(self.__owners)}")
         print(f"Tag(s): {', '.join(self.__tags)}")
         print("-" * 130)
@@ -135,7 +171,7 @@ class TaskList:
         # Print each task with its attributes
         for idx, task in enumerate(self.__tasks, 1):
             print(f"{idx:<5}"
-                  f"{task.task_name:<25}"
+                  f"{task.name:<25}"
                   f"{task.progress_status:<25}"
                   f"{task.assignee:<25}"
                   f"{task.due_date:<25}"
@@ -146,17 +182,21 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # display_task_description
     # -----------------------------------------------------------------------------
-    # TODO: Modify args with task_id
-    def display_task_description(self, args) -> bool:
-        is_displayed = False
-        try:
-            print(f"\n{args.task_id}. {self.__tasks[args.task_id-1].task_name} - " 
-                  f"Description: {self.__tasks[args.task_id-1].description}"
-                  )
-            is_displayed = True
-        except Exception as e:
-            print("Error while trying to display the task"
-                  f"{self.__tasks[args.task_id-1].task_name}: {e}"
-                  )
-        
-        return is_displayed
+    """Creates a default display of the task description.
+
+        Args
+        ----
+            task_id (int): ID of the task to update.
+
+        Return
+        -------
+            None
+        """
+    def display_task_description(self, task_id) -> None:
+        if 0 < task_id <= len(self.__tasks):
+            task = self.__tasks[task_id - 1]
+            print(f"\n{task_id}. {task.name} - " 
+                    f"Description: {task.description}"
+                    )
+        else:
+            raise ValueError(f"Task ID '{task_id}' is out of range.")

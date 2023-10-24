@@ -32,7 +32,8 @@ def setup_parser():
     Returns:
         the initialized parser object
     """
-    # TODO: consider using a specific library like 'click'
+    # TODO: consider using a specific library like 'click'p
+    # TODO: Known limitation: task description and name can only be one word without space
     parser = argparse.ArgumentParser(description="Task List Manager")
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 

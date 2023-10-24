@@ -32,7 +32,7 @@ def handle_command(args, file_handler):
 # -----------------------------------------------------------------------------
 # task_list_sanity_check
 # -----------------------------------------------------------------------------
-def task_list_sanity_check(args, file_handler,):
+def task_list_sanity_check(task_list_name, file_handler,):
     """ Checks for the existence of the taskList using the task list name
 
     Args:
@@ -43,9 +43,9 @@ def task_list_sanity_check(args, file_handler,):
         A Task List object if the task list exist in the data file,
         None otherwise
     """
-    task_list_data = file_handler.read(args.task_list_name)
+    task_list_data = file_handler.read(task_list_name)
     if not task_list_data:
-        print(f"Task list '{args.task_list_name}' not found, aborting command")
+        print(f"Task list '{task_list_name}' not found, aborting command")
         return None
 
     return TaskList.from_dict(task_list_data)

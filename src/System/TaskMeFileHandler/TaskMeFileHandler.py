@@ -1,6 +1,6 @@
-import os
 import json
-
+import logging
+import os
 
 class TaskMeFileHandler:
     # Pre-defined data file and location for the TaskMe project.
@@ -100,7 +100,7 @@ class TaskMeFileHandler:
 
         # If the TaskList wasn't found and updated, add it.
         if not updated:
-            # TODO: add logging
+            logging.info((f"TaskList wasn't found and updated - hence it got created"))
             all_task_lists.append(task_list_dict)
 
         self.__write_all(all_task_lists)

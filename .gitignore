@@ -2,4 +2,5 @@
 *.pyc
 *.pkl
 .DS_Store
-*.log
+logs
+.old

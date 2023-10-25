@@ -1,7 +1,7 @@
+import logging
 from typing import List
 
 from src.TaskList.Task import Task
-
 
 # -----------------------------------------------------------------------------
 # TaskList
@@ -38,6 +38,7 @@ class TaskList:
             None
         """
         if not isinstance(task_obj, Task):
+            logging.error(f"Expected a Task object.")
             raise ValueError("Expected a Task object.")
         self.__tasks.append(task_obj)
 
@@ -80,6 +81,7 @@ class TaskList:
             self.__tasks.pop(task_id - 1)
             print(f"\nTask #{task_id} has been removed.")
         else:
+            logging.error(f"Task ID '{task_id}' is out of range.")
             raise ValueError(f"Task ID '{task_id}' is out of range.")
 
     # -----------------------------------------------------------------------------
@@ -103,7 +105,6 @@ class TaskList:
         for key, attr in attributes_mapping.items():
             if key in kwargs:
                 setattr(self, attr, kwargs[key])
-                # TODO: add logging
 
     # -----------------------------------------------------------------------------
     # update_task
@@ -125,8 +126,10 @@ class TaskList:
                 if hasattr(task, key):
                     getattr(task, key)(value)
                 else:
+                    logging.error(f"Task ID '{task_id}' is out of range.")
                     raise ValueError(f"Task does not have a setter for '{key}'.")
         else:
+            logging.error(f"Task ID '{task_id}' is out of range.")
             raise ValueError(f"Task ID '{task_id}' is out of range.")
         
     # -----------------------------------------------------------------------------
@@ -179,6 +182,7 @@ class TaskList:
                   f"Description: {task.description}"
                   )
         else:
+            logging.error(f"Task ID '{task_id}' is out of range.")
             raise ValueError(f"Task ID '{task_id}' is out of range.")
 
     # -----------------------------------------------------------------------------

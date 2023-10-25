@@ -1,5 +1,6 @@
-from src.TaskList.TaskList import TaskList
+import logging
 
+from src.TaskList.TaskList import TaskList
 
 def handle_command(args, file_handler):
     """ Handles the mapping between input args and CLI commands
@@ -27,6 +28,7 @@ def handle_command(args, file_handler):
         commands[args.subcommand](args, file_handler)
     else:
         print(f"Unknown command: {args.subcommand}")
+        logging.warning(f"Unknown command: {args.subcommand}")
 
 
 # -----------------------------------------------------------------------------
@@ -46,6 +48,7 @@ def task_list_sanity_check(task_list_name, file_handler,):
     task_list_data = file_handler.read(task_list_name)
     if not task_list_data:
         print(f"Task list '{task_list_name}' not found, aborting command")
+        logging.warning(f"Task list '{task_list_name}' not found, aborting command")
         return None
 
     return TaskList.from_dict(task_list_data)
@@ -67,10 +70,11 @@ def create_task_list(args, file_handler):
     task_list = TaskList(args.task_list_name, args.owners, args.tags)
     file_handler.write(task_list.to_dict())
     print(f"Task list '{args.task_list_name}' created and saved")
+    logging.warning(f"Task list '{args.task_list_name}' created and saved")
 
 
 # -----------------------------------------------------------------------------
-# create_task_list
+# update_task_list
 # -----------------------------------------------------------------------------
 def update_task_list(args, file_handler):
     """ Updates an existing task list and saves it into the data file

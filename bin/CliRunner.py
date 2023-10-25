@@ -1,4 +1,6 @@
 import argparse
+import logging
+
 from src.TaskListCLi.TaskListCli import handle_command
 from src.System.TaskMeFileHandler.TaskMeFileHandler import TaskMeFileHandler
 
@@ -10,7 +12,6 @@ VALID_PROGRESS_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED']
 def main():
     parser = setup_parser()
     file_handler = TaskMeFileHandler()
-
     while True:
         user_input = input("Enter your command (or 'exit' to quit): ")
 
@@ -24,6 +25,7 @@ def main():
             continue
         except Exception as e:
             print(f"Command error: {e}")
+            logging.error((f"Command error: {e}"))
 
 
 def setup_parser():

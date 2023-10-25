@@ -1,31 +1,28 @@
 import argparse
-import logging
+from src import logger
+import shlex
 
 from src.TaskListCLi.TaskListCli import handle_command
 from src.System.TaskMeFileHandler.TaskMeFileHandler import TaskMeFileHandler
-
-# Validation variables
-VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH']
-VALID_PROGRESS_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED']
+from src.Common.utils import VALID_PRIORITIES, VALID_PROGRESS_STATUSES
 
 
 def main():
     parser = setup_parser()
     file_handler = TaskMeFileHandler()
     while True:
-        user_input = input("Enter your command (or 'exit' to quit): ")
+        user_input = input("Enter your TaskMe command (or 'exit' to quit): ")
 
         if user_input.lower() in ['exit', 'quit']:
             break
 
         try:
-            args = parser.parse_args(user_input.split())
+            args = parser.parse_args(shlex.split(user_input))
             handle_command(args, file_handler)
         except SystemExit:
             continue
         except Exception as e:
-            print(f"Command error: {e}")
-            logging.error((f"Command error: {e}"))
+            logger.error(f"Error when running command: {e}")
 
 
 def setup_parser():
@@ -35,58 +32,113 @@ def setup_parser():
         the initialized parser object
     """
     # TODO: consider using a specific library like 'click'p
-    # TODO: Known limitation: task description and name can only be one word without space
-    parser = argparse.ArgumentParser(description="Task List Manager")
+    parser = argparse.ArgumentParser(
+        description="""Task List Manager
+
+        Subcommands:
+        create       - Create a new task list.
+        addtask      - Add a new task to an existing task list.
+        rmtask       - Remove a task from a task list.
+        update       - Update the details of an existing task list.
+        updatetask   - Update details of a task in a task list.
+        display      - Display the tasks in a task list.
+        taskdesc     - Display the detailed description of a specific task.
+        
+        Examples:
+           create MyTasks JohnDoe
+           addtask 'My tasks' JohnDoe BuyMilk 01-01-22 MEDIUM 'Buy milk from store'
+           rmtask MyTasks 5
+           
+        NOTE: For multi-word arguments, please enclose them in quotes."
+        """,
+        epilog="For detailed information about each command, type 'CliRunner.py <command> -h'.",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
     # Parser for task list creation
-    create_parser = subparsers.add_parser("create", help="Create a new task list")
-    create_parser.add_argument("task_list_name", type=str, help="Name of the new task list")
-    create_parser.add_argument("owners", nargs='+', type=str, help="Owners of the new task list")
-    create_parser.add_argument("--tags", nargs='+', default=[], type=str, help="Tags for the new task list")
+    create_parser = subparsers.add_parser("create",
+                                          help="Creates a new task list: create <task_list_name> <owner1> "
+                                               "[owner2 ...] [--tags tag1 tag2 ...]")
+    create_parser.add_argument("task_list_name", type=str,
+                               help="Name of the future Task Lst (if multiple words per tag, enclose in quotes)")
+    create_parser.add_argument("owners", nargs='+', type=str,
+                               help="<owner1> [owner2 ...]: Owners of the new task list")
+    create_parser.add_argument("--tags", nargs='+', default=[], type=str,
+                               help="[--tags tag1 tag2 ...]: Tags for the new task list")
 
     # Parser for task addition
-    addtask_parser = subparsers.add_parser("addtask", help="Add new task to a task list")
+    addtask_parser = subparsers.add_parser("addtask",
+                                           help="Adds a task: addtask <task_list_name> <assignee> <name> <due_date>"
+                                                " <priority> <description>")
     addtask_parser.add_argument("task_list_name", type=str,
-                                help="Name of the task list where to add a new task")
-    addtask_parser.add_argument("assignee", type=str, help="Task assignee")
-    addtask_parser.add_argument("name", type=str, help="Task name")
-    addtask_parser.add_argument("due_date", type=str, help="Task due date")
-    addtask_parser.add_argument("priority", type=str, choices=VALID_PRIORITIES, help="Task priority")
-    addtask_parser.add_argument("description", type=str, help="Task description")
+                                help="Task list to add to")
+    addtask_parser.add_argument("assignee", type=str,
+                                help="Task assignee")
+    addtask_parser.add_argument("name", type=str,
+                                help="Task name")
+    addtask_parser.add_argument("due_date", type=str,
+                                help="Due date (format: DD-MM-YYYY)")
+    addtask_parser.add_argument("priority", type=str, choices=VALID_PRIORITIES,
+                                help=f"Priority choices)")
+    addtask_parser.add_argument("description", type=str,
+                                help="Task description (if multiple words, enclose in quotes)")
 
     # Parser for task removal
-    rmtask_parser = subparsers.add_parser("rmtask", help="Add new task to a task list")
-    rmtask_parser.add_argument("task_list_name", type=str, help="Name of the task list where to remove a task")
-    rmtask_parser.add_argument("task_id", type=int, help="ID of task to be removed")
+    rmtask_parser = subparsers.add_parser("rmtask",
+                                          help="Removes a task: rmtask <task_list_name> <task_id>")
+    rmtask_parser.add_argument("task_list_name", type=str,
+                               help="Task List from which to remove (if multiple words, enclose in quotes)")
+    rmtask_parser.add_argument("task_id", type=int,
+                               help="ID of the task to remove")
 
     # Parser for task list update
-    update_parser = subparsers.add_parser("update", help="Update a new task list")
-    update_parser.add_argument("task_list_name", type=str, help="Name of the task list to be updated")
-    update_parser.add_argument("--owners", nargs='+', type=str, help="New owner(s) of the task list")
-    update_parser.add_argument("--tags", nargs='+', type=str, help="New tag(s) for the task list")
+    update_parser = subparsers.add_parser("update",
+                                          help="Updates a task list: update <task_list_name>"
+                                               " [--owners owner1 owner2 ...] [--tags tag1 tag2 ...]")
+    update_parser.add_argument("task_list_name", type=str,
+                               help="Task List name to update (if multiple words, enclose in quotes)")
+    update_parser.add_argument("--owners", nargs='+', type=str,
+                               help="Specify new owner(s) for the task list")
+    update_parser.add_argument("--tags", nargs='+', type=str,
+                               help="Add/Modify tags for the task list")
 
     # Parser for task update
-    updatetask_parser = subparsers.add_parser("updatetask", help="Update a task in the list")
+    updatetask_parser = subparsers.add_parser("updatetask",
+                                              help="Updates task attributes: updatetask <task_list_name>"
+                                                   " <task_id> [options...]")
     updatetask_parser.add_argument("task_list_name", type=str,
-                                   help="Name of the task list where to update a task")
-    updatetask_parser.add_argument("task_id", type=int, help="ID of task to be updated")
-    updatetask_parser.add_argument("--assignee", type=str, help="Task assignee")
-    updatetask_parser.add_argument("--name", type=str, help="Task name")
-    updatetask_parser.add_argument("--due_date", type=str, help="Task due date")
-    updatetask_parser.add_argument("--priority", type=str, choices=VALID_PRIORITIES, help="Task priority")
-    updatetask_parser.add_argument("--description", type=str, help="Task description")
+                                   help="Task List name containing targeted task"
+                                        " (if multiple words, enclose in quotes)")
+    updatetask_parser.add_argument("task_id", type=int,
+                                   help="ID of the task to update")
+    updatetask_parser.add_argument("--assignee", type=str,
+                                   help="Update the assignee of the task")
+    updatetask_parser.add_argument("--name", type=str,
+                                   help="Update the name/title of the task")
+    updatetask_parser.add_argument("--due_date", type=str,
+                                   help="Change the task due date")
+    updatetask_parser.add_argument("--priority", type=str, choices=VALID_PRIORITIES,
+                                   help="Set a new task priority")
+    updatetask_parser.add_argument("--description", type=str,
+                                   help="Modify the task's description")
     updatetask_parser.add_argument("--progress_status", type=str, choices=VALID_PROGRESS_STATUSES,
-                                   help="Task progress status")
+                                   help="Update the task's progress status")
 
     # Parser for task list display
-    display_parser = subparsers.add_parser("display", help="Display a saved task list")
-    display_parser.add_argument("task_list_name", type=str, help="Input file containing the saved task list")
+    display_parser = subparsers.add_parser("display",
+                                           help="Displays the content of a task list: display <task_list_name>")
+    display_parser.add_argument("task_list_name", type=str,
+                                help="Task List name you want to display (if multiple words, enclose in quotes)")
 
     # Parser for task description display
-    taskdesc_parser = subparsers.add_parser("taskdesc", help="Display the description of a task")
-    taskdesc_parser.add_argument("task_list_name", type=str, help="Name of the task list where task belongs")
-    taskdesc_parser.add_argument("task_id", type=int, help="ID of task to be displayed")
+    taskdesc_parser = subparsers.add_parser("taskdesc",
+                                            help="Displays the description of a specific task:"
+                                                 " taskdesc <task_list_name> <task_id>")
+    taskdesc_parser.add_argument("task_list_name", type=str,
+                                 help="Task List name of the targeted task (if multiple words, enclose in quotes)")
+    taskdesc_parser.add_argument("task_id", type=int,
+                                 help="ID of the task whose description you want to display ")
 
     return parser
 
@@ -95,7 +147,7 @@ def startup_msg():
     """ Startup message of the TaskMe CLI
 
     Returns:
-
+        None
     """
     logo = """
          _____ ___   _____ _   _____  ___ _____ 
@@ -106,13 +158,11 @@ def startup_msg():
           \_/\_| |_/\____/\_| \_/\_|  |_/\____/ 
                                         """
 
-    # Welcome message
     welcome_msg = """
     Welcome to TASK ME - The ultimate task manager (or not)!
     Type '--help' to see a list of available commands or 'exit' to quit.
     """
 
-    # Print the logo and welcome message
     print(logo)
     print(welcome_msg)
 

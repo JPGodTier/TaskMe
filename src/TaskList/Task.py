@@ -1,9 +1,8 @@
-import logging
+from src import logger
 from datetime import datetime
 
-logging.basicConfig(filename = 'logs/TaskMe.log', level=logging.INFO, 
-                    format='%(asctime)s:%(levelname)s:%(message)s'
-                    )
+from src.Common.utils import VALID_PRIORITIES, VALID_PROGRESS_STATUSES
+
 
 # -----------------------------------------------------------------------------
 # Task
@@ -14,17 +13,17 @@ class Task:
 
     Attributes
     ----------
-    assignee : str
+    __assignee : str
         The task assignee.
-    name : str
+    __name : str
         The task name.
-    due_date : str
+    __due_date : str
         A string indicating when the task is due, format is dd/mm/yyyy.
-    priority : str
+    __priority : str
         Priority of the task, available values are LOW, MEDIUM or HIGH.
-    description : str
+    __description : str
         A brief description of the task.
-    progress_status : str
+    __progress_status : str
         The task progress, available values are PENDING, IN_PROGRESS, COMPLETED.
 
 
@@ -34,10 +33,6 @@ class Task:
     they must be one of the predefined valid options in 'VALID_PRIORITIES' and 'VALID_PROGRESS_STATUSES', respectively.
 
     """
-    # Validation variables
-    VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH']
-    VALID_PROGRESS_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED']
-
     def __init__(self,
                  assignee: str,
                  name: str,
@@ -47,17 +42,17 @@ class Task:
                  progress_status: str) -> None:
 
         # Sanity checks for priority attribute
-        if priority not in self.VALID_PRIORITIES:
-            logging.error(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
-                          f" and got {priority}")
-            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
+        if priority not in VALID_PRIORITIES:
+            logger.error(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
+                         f" and got {priority}")
+            raise ValueError(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
                              f" and got {priority}")
 
         # Sanity checks for progress_status attribute
-        if progress_status not in self.VALID_PROGRESS_STATUSES:
-            logging.error(f"Invalid progress_status value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
-                          f" and got {progress_status}")
-            raise ValueError(f"Invalid progress_status value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
+        if progress_status not in VALID_PROGRESS_STATUSES:
+            logger.error(f"Invalid progress_status value. Expected one of the following: {VALID_PROGRESS_STATUSES}"
+                         f" and got {progress_status}")
+            raise ValueError(f"Invalid progress_status value. Expected one of the following: {VALID_PROGRESS_STATUSES}"
                              f" and got {progress_status}")
 
         # Attributes Init
@@ -114,7 +109,7 @@ class Task:
         try:
             datetime.strptime(new_due_date, "%d/%m/%Y")
         except ValueError:
-            logging.error("Invalid due_date format. Expected format is 'dd/mm/yyyy'.")
+            logger.error("Invalid due_date format. Expected format is 'dd/mm/yyyy'.")
             raise ValueError("Invalid due_date format. Expected format is 'dd/mm/yyyy'.")
         self.__due_date = new_due_date
 
@@ -140,10 +135,10 @@ class Task:
             i.e 'LOW', 'MEDIUM' or 'HIGH'
 
         """
-        if new_priority not in self.VALID_PRIORITIES:
-            logging.error(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
-                          f" and got {new_priority}")
-            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PRIORITIES}"
+        if new_priority not in VALID_PRIORITIES:
+            logger.error(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
+                         f" and got {new_priority}")
+            raise ValueError(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
                              f" and got {new_priority}")
         self.__priority = new_priority
 
@@ -180,10 +175,10 @@ class Task:
             i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
 
         """
-        if new_status not in self.VALID_PROGRESS_STATUSES:
-            logging.error(f"Invalid priority value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
-                          f" and got {new_status}")
-            raise ValueError(f"Invalid priority value. Expected one of the following: {self.VALID_PROGRESS_STATUSES}"
+        if new_status not in VALID_PROGRESS_STATUSES:
+            logger.error(f"Invalid priority value. Expected one of the following: {VALID_PROGRESS_STATUSES}"
+                         f" and got {new_status}")
+            raise ValueError(f"Invalid priority value. Expected one of the following: {VALID_PROGRESS_STATUSES}"
                              f" and got {new_status}")
         self.__progress_status = new_status
 

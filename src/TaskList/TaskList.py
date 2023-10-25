@@ -1,7 +1,8 @@
-import logging
+from src import logger
 from typing import List
 
 from src.TaskList.Task import Task
+
 
 # -----------------------------------------------------------------------------
 # TaskList
@@ -38,7 +39,7 @@ class TaskList:
             None
         """
         if not isinstance(task_obj, Task):
-            logging.error(f"Expected a Task object.")
+            logger.error(f"Expected a Task object.")
             raise ValueError("Expected a Task object.")
         self.__tasks.append(task_obj)
 
@@ -63,7 +64,7 @@ class TaskList:
         new_task = Task(assignee, name, due_date, priority, description, "PENDING")
 
         self.__tasks.append(new_task)
-        print(f"Task '{name}' created")
+        logger.debug(f"Task '{name}' created successfully.")
     
     # -----------------------------------------------------------------------------
     # remove_task
@@ -79,10 +80,10 @@ class TaskList:
         """
         if 0 < task_id <= len(self.__tasks):
             self.__tasks.pop(task_id - 1)
-            print(f"\nTask #{task_id} has been removed.")
+            logger.debug(f"Task #{task_id} removed.")
         else:
-            logging.error(f"Task ID '{task_id}' is out of range.")
-            raise ValueError(f"Task ID '{task_id}' is out of range.")
+            logger.error(f"Task ID #{task_id} is out of range.")
+            raise ValueError(f"Task ID #{task_id} is out of range.")
 
     # -----------------------------------------------------------------------------
     # update_tasklist
@@ -126,11 +127,11 @@ class TaskList:
                 if hasattr(task, key):
                     getattr(task, key)(value)
                 else:
-                    logging.error(f"Task ID '{task_id}' is out of range.")
+                    logger.error(f"Task ID '{task_id}' is out of range.")
                     raise ValueError(f"Task does not have a setter for '{key}'.")
         else:
-            logging.error(f"Task ID '{task_id}' is out of range.")
-            raise ValueError(f"Task ID '{task_id}' is out of range.")
+            logger.error(f"Task ID #{task_id} is out of range.")
+            raise ValueError(f"Task ID #{task_id} is out of range.")
         
     # -----------------------------------------------------------------------------
     # display_tasklist
@@ -182,7 +183,7 @@ class TaskList:
                   f"Description: {task.description}"
                   )
         else:
-            logging.error(f"Task ID '{task_id}' is out of range.")
+            logger.error(f"Task ID #{task_id} is out of range.")
             raise ValueError(f"Task ID '{task_id}' is out of range.")
 
     # -----------------------------------------------------------------------------

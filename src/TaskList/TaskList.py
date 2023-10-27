@@ -98,7 +98,6 @@ class TaskList:
             None
         """
         attributes_mapping = {
-            "name": "__name",
             "owners": "__owners",
             "tags": "__tags"
         }
@@ -125,7 +124,7 @@ class TaskList:
 
             for key, value in kwargs.items():
                 if hasattr(task, key):
-                    getattr(task, key)(value)
+                    setattr(task, key, value)
                 else:
                     logger.error(f"Task ID '{task_id}' is out of range.")
                     raise ValueError(f"Task does not have a setter for '{key}'.")
@@ -136,7 +135,7 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # display_tasklist
     # -----------------------------------------------------------------------------
-    def display_tasklist(self) -> None:
+    def display_tasklist(self) -> None:  # pragma: no cover
         """ Creates a default display of the task list.
 
         Returns:
@@ -168,7 +167,7 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # display_task_description
     # -----------------------------------------------------------------------------
-    def display_task_description(self, task_id) -> None:
+    def display_task_description(self, task_id) -> None:  # pragma: no cover
         """ Creates a default display of the task description.
 
         Args:
@@ -185,6 +184,34 @@ class TaskList:
         else:
             logger.error(f"Task ID #{task_id} is out of range.")
             raise ValueError(f"Task ID '{task_id}' is out of range.")
+
+    # -----------------------------------------------------------------------------
+    # name getter
+    # -----------------------------------------------------------------------------
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    # -----------------------------------------------------------------------------
+    # owners getter
+    # -----------------------------------------------------------------------------
+    @property
+    def owners(self) -> List[str]:
+        return self.__owners
+    
+    # -----------------------------------------------------------------------------
+    # tags getter
+    # -----------------------------------------------------------------------------
+    @property
+    def tags(self) -> List[str]:
+        return self.__tags
+    
+    # -----------------------------------------------------------------------------
+    # tasks getter
+    # -----------------------------------------------------------------------------
+    @property
+    def tasks(self) -> List:
+        return self.__tasks
 
     # -----------------------------------------------------------------------------
     # to_dict
@@ -215,6 +242,7 @@ class TaskList:
         Returns:
             TaskList object
         """
+        # TODO: tags are optional, adjust accordingly
         task_list = cls(data["taskListName"], data["owners"], data["tags"])
 
         # If the task list possesses some tasks, load them into the task list

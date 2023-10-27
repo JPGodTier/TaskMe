@@ -1,5 +1,5 @@
 import argparse
-from src import logger
+from src import logger, __version__
 import shlex
 
 from src.TaskListCLi.TaskListCli import handle_command
@@ -18,11 +18,14 @@ def main():
 
         try:
             args = parser.parse_args(shlex.split(user_input))
-            handle_command(args, file_handler)
+            if not handle_command(args, file_handler):
+                print(f"Failed to execute command {args.subcommand}. Check logs for more details.")
         except SystemExit:
+            print("Invalid command or arguments. Try again or check the documentation.")
             continue
         except Exception as e:
             logger.error(f"Error when running command: {e}")
+            print("An unexpected error occurred. Check logs for more details.")
 
 
 def setup_parser():
@@ -45,11 +48,11 @@ def setup_parser():
         taskdesc     - Display the detailed description of a specific task.
         
         Examples:
-           create MyTasks JohnDoe
-           addtask 'My tasks' JohnDoe BuyMilk 01-01-22 MEDIUM 'Buy milk from store'
-           rmtask MyTasks 5
+           create 'My tasks' 'John Doe'
+           addtask 'My tasks' 'John Doe' 'Buy milk' 01/01/2023 MEDIUM 'Buy fat milk from Walmart'
+           rmtask 'My Tasks' 5
            
-        NOTE: For multi-word arguments, please enclose them in quotes."
+        NOTE: For multi-word arguments, please enclose them in quotes.
         """,
         epilog="For detailed information about each command, type 'CliRunner.py <command> -h'.",
         formatter_class=argparse.RawDescriptionHelpFormatter
@@ -149,16 +152,16 @@ def startup_msg():
     Returns:
         None
     """
-    logo = """
+    logo = f"""
          _____ ___   _____ _   _____  ___ _____ 
         |_   _/ _ \ /  ___| | / /|  \/  ||  ___|
           | |/ /_\ \\\ `--.| |/ / | .  . || |__  
           | ||  _  | `--. \    \ | |\/| ||  __| 
           | || | | |/\__/ / |\  \| |  | || |___ 
           \_/\_| |_/\____/\_| \_/\_|  |_/\____/ 
-                                        """
+                                         v{__version__}"""
 
-    welcome_msg = """
+    welcome_msg = f"""
     Welcome to TASK ME - The ultimate task manager (or not)!
     Type '--help' to see a list of available commands or 'exit' to quit.
     """

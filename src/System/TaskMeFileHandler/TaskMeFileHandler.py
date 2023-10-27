@@ -1,15 +1,33 @@
 import json
-import logging
 import os
+from pathlib import Path
+
+from src import logger
+
 
 class TaskMeFileHandler:
-    # Pre-defined data file and location for the TaskMe project.
-    FILE_PATH = os.path.expanduser(".taskme_data.json")
-
     def __init__(self):
         """Initialize a file handler for TaskMe JSON storage."""
-        if not os.path.exists(self.FILE_PATH):
+        self.__file_path = self.__get_data_file_path()
+        logger.debug(f"Data file path: {self.__file_path}")
+        if not os.path.isfile(self.__file_path):
             self.__initialize_data_file()
+
+    # -----------------------------------------------------------------------------
+    # __get_data_file_path
+    # -----------------------------------------------------------------------------
+    @staticmethod
+    def __get_data_file_path():
+        # Retrieve the root TaskMe directory
+        parent_dir = Path(__file__).resolve().parents[3]
+
+        data_dir = parent_dir / "data"
+
+        # If the directory doesn't exist, create it
+        data_dir.mkdir(exist_ok=True)
+
+        # Define the file path inside the data directory
+        return data_dir / ".taskme_data.json"
 
     # -----------------------------------------------------------------------------
     # __initialize_data_file
@@ -21,7 +39,7 @@ class TaskMeFileHandler:
             None
         """
         default_data = {"taskLists": []}
-        with open(self.FILE_PATH, 'w') as file:
+        with open(self.__file_path, 'w') as file:
             json.dump(default_data, file, indent=4)
 
     # -----------------------------------------------------------------------------
@@ -38,7 +56,7 @@ class TaskMeFileHandler:
         """
         data = {"taskLists": task_lists}
 
-        with open(self.FILE_PATH, 'w') as file:
+        with open(self.__file_path, 'w') as file:
             json.dump(data, file, indent=4)
 
     # -----------------------------------------------------------------------------
@@ -53,7 +71,7 @@ class TaskMeFileHandler:
         Returns:
             list: A list of TaskList dictionaries.
         """
-        with open(self.FILE_PATH, 'r') as file:
+        with open(self.__file_path, 'r') as file:
             data = json.load(file)
             return data["taskLists"]
 
@@ -98,9 +116,9 @@ class TaskMeFileHandler:
                 updated = True
                 break
 
-        # If the TaskList wasn't found and updated, add it.
+        # If the TaskList wasn't found, add it.
         if not updated:
-            logging.info((f"TaskList wasn't found and updated - hence it got created"))
+            logger.info(f"TaskList {task_list_dict['taskListName']} wasn't found - hence got created")
             all_task_lists.append(task_list_dict)
 
         self.__write_all(all_task_lists)

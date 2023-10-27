@@ -189,7 +189,7 @@ class Task:
         """ Dict representation of a Task object
 
         Returns:
-            None
+            Dictionary representation of Task object
         """
         return {
             "assignee": self.__assignee,
@@ -201,7 +201,7 @@ class Task:
         }
 
     # -----------------------------------------------------------------------------
-    # to_dicts
+    # from_dicts
     # -----------------------------------------------------------------------------
     @classmethod
     def from_dict(cls, data_dict):

@@ -96,11 +96,8 @@ class Task:
         Args:
             new_due_date (str): new due_date to set
 
-        Returns:
-            None
-
         Raises:
-            ValueError if new_due_date is not in the following format: dd/mm/YYYY
+            ValueError: if new_due_date is not in the following format: dd/mm/YYYY
 
         """
         try:
@@ -124,13 +121,8 @@ class Task:
         Args:
             new_priority (str): new priority to set
 
-        Returns:
-            None
-
         Raises:
-            ValueError if new_priority is not in the VALID_PRIORITIES expected values:
-            i.e 'LOW', 'MEDIUM' or 'HIGH'
-
+            ValueError: if new_priority is not in the VALID_PRIORITIES expected values: i.e 'LOW', 'MEDIUM' or 'HIGH'
         """
         if new_priority not in VALID_PRIORITIES:
             logger.error(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
@@ -164,13 +156,8 @@ class Task:
         Args:
             new_status (str): new status to set
 
-        Returns:
-            None
-
         Raises:
-            ValueError if new_status is not in the VALID_PROGRESS_STATUSES expected values:
-            i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
-
+            ValueError: if new_status is not in the VALID_PROGRESS_STATUSES expected values.
         """
         if new_status not in VALID_PROGRESS_STATUSES:
             logger.error(f"Invalid priority value. Expected one of the following: {VALID_PROGRESS_STATUSES}"

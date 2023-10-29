@@ -124,7 +124,7 @@ def test_to_dict():
                 "LOW",
                 "This is a test task",
                 "PENDING")
-    
+
     task_dict = task.to_dict()
     assert task_dict["assignee"] == "Billy"
     assert task_dict["name"] == "Test Task"
@@ -140,11 +140,11 @@ def test_to_dict():
 
 def test_from_dict():
     task_dict = {
-        "assignee": "Billy", 
-        "name": "Test Task", 
-        "due_date": "25/10/2023", 
-        "priority": "LOW", 
-        "description": "This is a test task", 
+        "assignee": "Billy",
+        "name": "Test Task",
+        "due_date": "25/10/2023",
+        "priority": "LOW",
+        "description": "This is a test task",
         "progress_status": "PENDING"
     }
     task = Task.from_dict(task_dict)

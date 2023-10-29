@@ -23,22 +23,62 @@ You can display each task list to see its list of tasks and their current status
 ### Dependencies
 
 See requirements.txt:
+* colorama==0.4.6
+* coverage==7.3.2
 * iniconfig==2.0.0
 * packaging==23.2
 * pluggy==1.3.0
 * pytest==7.4.3
+* pytest-cov==4.1.0
+* pytest-mock==3.12.0
 
 ### Installing
 
-* To be completed once the setup is finalized
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+#### For Users:
+
+* To install TaskMe: 
+
+```
+git clone https://github.com/JPGodTier/TaskMe.git
+cd TaskMe
+pip install .
+```
+
+#### For Developers/Contributors:
+
+If you're planning to contribute or test the latest changes, you should first set up a virtual environment and then install the package in "editable" mode. This allows any changes you make to the source files to immediately affect the installed package without requiring a reinstall.
+
+* Clone the repository:
+
+```
+git clone https://github.com/JPGodTier/TaskMe.git
+cd TaskMe
+```
+
+* Set up a virtual environment:
+
+```
+python3 -m venv taskme_env
+source taskme_env/bin/activate  # On Windows, use: taskme_env\Scripts\activate
+```
+
+* Install the required dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+* Install TaskMe in editable mode:
+
+```
+pip install -e . 
+```
 
 ### Executing program
 
 Launch the program:  
 ```
-python3 TaskMe/bin/CliRunner.py
+python3 bin/CliRunner.py
 ```
 You can enter your command line (for multi-word arguments, please enclose them in quotes):
 * ```create```: Creates a new task list
@@ -78,20 +118,22 @@ taskdesc <task_list_name> <task_id>
 
 * Examples:
 ```
-create MyTasks JohnDoe
+create 'My tasks' 'John Doe'
 ```
 ```
-addtask 'My tasks' JohnDoe BuyMilk 01-01-22 MEDIUM 'Buy milk from store'
+addtask 'My tasks' 'John Doe' 'Buy milk' 01/01/2023 MEDIUM 'Buy fat milk from Walmart'
 ```
 ```
-rmtask MyTasks 5
+rmtask 'My Tasks' 5
 ```
+
 
 ## Help
 
 To see a list of available commands:
 ```
---help
+--help           # General help
+<command> --help # Specific command help
 ```
 To quit:
 ```
@@ -101,7 +143,7 @@ exit
 ## Authors
 
 Paul Aristidou (alias JP God Tier)  
-Olivier Lapabe-Goastat
+Olivier Lapabe-Goastat (alias GoatStat)
 
 ## Version History
 

@@ -1,3 +1,5 @@
+# flake8: noqa: F405
+
 import argparse
 from src import logger, __version__
 import shlex
@@ -8,6 +10,8 @@ from src.Common.utils import VALID_PRIORITIES, VALID_PROGRESS_STATUSES
 
 
 def main():
+    """ Main Cli loop
+    """
     parser = setup_parser()
     file_handler = TaskMeFileHandler()
     while True:
@@ -148,10 +152,8 @@ def setup_parser():
 
 def startup_msg():
     """ Startup message of the TaskMe CLI
-
-    Returns:
-        None
     """
+    # noinspection PyPep8
     logo = f"""
          _____ ___   _____ _   _____  ___ _____ 
         |_   _/ _ \ /  ___| | / /|  \/  ||  ___|
@@ -161,7 +163,7 @@ def startup_msg():
           \_/\_| |_/\____/\_| \_/\_|  |_/\____/ 
                                          v{__version__}"""
 
-    welcome_msg = f"""
+    welcome_msg = """
     Welcome to TASK ME - The ultimate task manager (or not)!
     Type '--help' to see a list of available commands or 'exit' to quit.
     """

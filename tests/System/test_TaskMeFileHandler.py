@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import mock_open, patch, MagicMock
 from src.System.TaskMeFileHandler.TaskMeFileHandler import TaskMeFileHandler
-import json
 
 
 class TestTaskMeFileHandler:
@@ -34,7 +33,7 @@ class TestTaskMeFileHandler:
     # -----------------------------------------------------------------------------
     def test_file_handler_init_file_exists(self):
         with patch("os.path.isfile", return_value=True):
-            with patch("src.TaskListCLi.TaskListCli.logger", new_callable=MagicMock) as mock_logger:
+            with patch("src.TaskListCLi.TaskListCli.logger", new_callable=MagicMock) as _:
                 # File exists -> __initialize_data_file should not be called
                 self.handler = TaskMeFileHandler()
 
@@ -43,7 +42,7 @@ class TestTaskMeFileHandler:
 
     def test_file_handler_init_file_does_not_exist(self):
         with patch("os.path.isfile", return_value=False):
-            with patch("src.TaskListCLi.TaskListCli.logger", new_callable=MagicMock) as mock_logger:
+            with patch("src.TaskListCLi.TaskListCli.logger", new_callable=MagicMock) as _:
                 # File doesn't exist -> __initialize_data_file should be called
                 self.handler = TaskMeFileHandler()
 

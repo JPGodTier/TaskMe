@@ -34,9 +34,6 @@ class TaskMeFileHandler:
     # -----------------------------------------------------------------------------
     def __initialize_data_file(self) -> None:
         """Initialize the data file with default values.
-
-        Returns:
-            None
         """
         default_data = {"taskLists": []}
         with open(self.__file_path, 'w') as file:
@@ -50,9 +47,6 @@ class TaskMeFileHandler:
 
         Args:
             task_lists (list): A list of TaskList dictionaries.
-
-        Returns:
-            None
         """
         data = {"taskLists": task_lists}
 
@@ -103,9 +97,6 @@ class TaskMeFileHandler:
 
         Args:
             task_list_dict: The TaskList dictionary to write.
-
-        Returns:
-            None
         """
         # TODO: might be expensive as the file grows, to investigate
         all_task_lists = self.read_all()

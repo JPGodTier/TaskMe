@@ -99,9 +99,6 @@ class Task:
         Args:
             new_due_date (str): new due_date to set
 
-        Returns:
-            None
-
         Raises:
             ValueError if new_due_date is not in the following format: dd/mm/YYYY
 
@@ -126,9 +123,6 @@ class Task:
 
         Args:
             new_priority (str): new priority to set
-
-        Returns:
-            None
 
         Raises:
             ValueError if new_priority is not in the VALID_PRIORITIES expected values:
@@ -166,9 +160,6 @@ class Task:
 
         Args:
             new_status (str): new status to set
-
-        Returns:
-            None
 
         Raises:
             ValueError if new_status is not in the VALID_PROGRESS_STATUSES expected values:

@@ -4,6 +4,12 @@ from pathlib import Path
 
 def setup_logger(name):  # pragma: no cover
     """Setup of the TaskMe Logger.
+
+    Args:
+        name: name of the TaskMe logger
+
+    Returns:
+        Task Me Logger object
     """
 
     # Logs Directory definition, directory will be created  if not existing

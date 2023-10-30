@@ -8,6 +8,8 @@ from src.Common.utils import VALID_PRIORITIES, VALID_PROGRESS_STATUSES
 
 
 def main():
+    """ Main Cli loop
+    """
     parser = setup_parser()
     file_handler = TaskMeFileHandler()
     while True:
@@ -148,9 +150,6 @@ def setup_parser():
 
 def startup_msg():
     """ Startup message of the TaskMe CLI
-
-    Returns:
-        None
     """
     # noinspection PyPep8
     logo = f"""

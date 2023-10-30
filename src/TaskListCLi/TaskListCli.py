@@ -22,7 +22,7 @@ def initialize_commands():
 # -----------------------------------------------------------------------------
 # handle_command
 # -----------------------------------------------------------------------------
-def handle_command(args, file_handler):
+def handle_command(args, file_handler) -> bool:
     """ Handles the mapping between input args and CLI commands
 
     Args:
@@ -30,7 +30,7 @@ def handle_command(args, file_handler):
         file_handler: file handler object
 
     Returns:
-        None
+        True if command was executed successfully, False otherwise
     """
     # Command status state
     is_executed = False
@@ -65,6 +65,9 @@ def task_list_sanity_check(task_list_name, file_handler):
     Returns:
         A Task List object if the task list exist in the data file,
         None otherwise
+
+    Raises:
+        Custom Exception if task list name was not found in the data file
     """
     task_list_data = file_handler.read(task_list_name)
     if not task_list_data:
@@ -76,15 +79,12 @@ def task_list_sanity_check(task_list_name, file_handler):
 # -----------------------------------------------------------------------------
 # create_task_list
 # -----------------------------------------------------------------------------
-def create_task_list(args, file_handler):
+def create_task_list(args, file_handler) -> None:
     """ Creates a new task list and saves it into the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Returns:
-        None
     """
     # TODO: check how args work when its optional
     task_list = TaskList(args.task_list_name, args.owners, args.tags)
@@ -95,16 +95,15 @@ def create_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # update_task_list
 # -----------------------------------------------------------------------------
-def update_task_list(args, file_handler):
+def update_task_list(args, file_handler) -> None:
     """ Updates an existing task list and saves it into the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -118,15 +117,15 @@ def update_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # add_task
 # -----------------------------------------------------------------------------
-def add_task(args, file_handler):
+def add_task(args, file_handler) -> None:
     """ Adds a Task into an existing task list and saves it into the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -141,15 +140,15 @@ def add_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # update_task
 # -----------------------------------------------------------------------------
-def update_task(args, file_handler):
+def update_task(args, file_handler) -> None:
     """ Updates an existing task and saves it into the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -165,15 +164,15 @@ def update_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # remove_task
 # -----------------------------------------------------------------------------
-def remove_task(args, file_handler):
+def remove_task(args, file_handler) -> None:
     """ Removes an existing task from the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -187,16 +186,15 @@ def remove_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # display_task_list
 # -----------------------------------------------------------------------------
-def display_task_list(args, file_handler):
+def display_task_list(args, file_handler) -> None:
     """ Displays the selected task list
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -208,16 +206,15 @@ def display_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # display_task_description
 # -----------------------------------------------------------------------------
-def display_task_description(args, file_handler):
+def display_task_description(args, file_handler) -> None:
     """ Display the selected task description
 
     Args:
         args: command arguments
         file_handler: file handler object
 
-
-    Returns:
-        None
+    Raises:
+        Exception if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)

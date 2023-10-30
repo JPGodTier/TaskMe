@@ -29,14 +29,14 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # __add_task_from_object
     # -----------------------------------------------------------------------------
-    def __add_task_from_object(self, task_obj):
+    def __add_task_from_object(self, task_obj) -> None:
         """ Adds a Task object to the internal TaskList
 
         Args:
             task_obj: Task Object
 
-        Returns:
-            None
+        Raises:
+            Value error if the given task_obj is not of type Task
         """
         if not isinstance(task_obj, Task):
             logger.error(f"Expected a Task object.")
@@ -51,9 +51,6 @@ class TaskList:
 
         Args:
             **kwargs: Keyword arguments representing the properties of the task to add.
-
-        Returns:
-            None
         """
         assignee = kwargs.get("assignee")
         name = kwargs.get("name")
@@ -75,8 +72,8 @@ class TaskList:
         Args:
             task_id (int): ID of the task to be removed.
 
-        Returns:
-            None
+        Raises:
+            Value Error if task_id is out of range
         """
         if 0 < task_id <= len(self.__tasks):
             self.__tasks.pop(task_id - 1)
@@ -93,9 +90,6 @@ class TaskList:
 
         Args:
             **kwargs: Keyword arguments representing the task list properties to update.
-
-        Returns:
-            None
         """
         attributes_mapping = {
             "owners": "__owners",
@@ -116,8 +110,8 @@ class TaskList:
             task_id: ID of the task to update.
             **kwargs: Keyword arguments representing the task properties to update.
 
-        Returns:
-            None
+        Raises:
+            Value Error if Task ID is out of range or if attribute doesn't have a setter methdo
         """
         if 0 < task_id <= len(self.__tasks):
             task = self.__tasks[task_id - 1]
@@ -137,9 +131,6 @@ class TaskList:
     # -----------------------------------------------------------------------------
     def display_tasklist(self) -> None:  # pragma: no cover
         """ Creates a default display of the task list.
-
-        Returns:
-            None
         """
         print("\n" + "-" * 130)
         print("\n" + "-" * 130)
@@ -173,8 +164,8 @@ class TaskList:
         Args:
             task_id: ID of the task to update.
 
-        Returns:
-            None
+        Raises:
+            Value Error if Task ID is out of range
         """
         if 0 < task_id <= len(self.__tasks):
             task = self.__tasks[task_id - 1]

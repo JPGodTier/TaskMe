@@ -36,7 +36,7 @@ class TaskList:
             task_obj: Task Object
 
         Raises:
-            Value error if the given task_obj is not of type Task
+            ValueError: if the given task_obj is not of type Task
         """
         if not isinstance(task_obj, Task):
             logger.error(f"Expected a Task object.")
@@ -73,7 +73,7 @@ class TaskList:
             task_id (int): ID of the task to be removed.
 
         Raises:
-            Value Error if task_id is out of range
+            ValueError: if task_id is out of range
         """
         if 0 < task_id <= len(self.__tasks):
             self.__tasks.pop(task_id - 1)
@@ -111,7 +111,7 @@ class TaskList:
             **kwargs: Keyword arguments representing the task properties to update.
 
         Raises:
-            Value Error if Task ID is out of range or if attribute doesn't have a setter methdo
+            ValueError: if Task ID is out of range or if attribute doesn't have a setter method
         """
         if 0 < task_id <= len(self.__tasks):
             task = self.__tasks[task_id - 1]
@@ -165,7 +165,7 @@ class TaskList:
             task_id: ID of the task to update.
 
         Raises:
-            Value Error if Task ID is out of range
+            ValueError: if Task ID is out of range
         """
         if 0 < task_id <= len(self.__tasks):
             task = self.__tasks[task_id - 1]

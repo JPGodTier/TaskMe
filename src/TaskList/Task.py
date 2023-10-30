@@ -125,7 +125,7 @@ class Task:
             new_priority (str): new priority to set
 
         Raises:
-            ValueError if new_priority is not in the VALID_PRIORITIES expected values:
+            ValueError: if new_priority is not in the VALID_PRIORITIES expected values:
             i.e 'LOW', 'MEDIUM' or 'HIGH'
 
         """
@@ -162,7 +162,7 @@ class Task:
             new_status (str): new status to set
 
         Raises:
-            ValueError if new_status is not in the VALID_PROGRESS_STATUSES expected values:
+            ValueError: if new_status is not in the VALID_PROGRESS_STATUSES expected values:
             i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
 
         """

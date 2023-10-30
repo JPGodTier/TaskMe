@@ -67,7 +67,7 @@ def task_list_sanity_check(task_list_name, file_handler):
         None otherwise
 
     Raises:
-        Custom Exception if task list name was not found in the data file
+        Exception: if task list name was not found in the data file
     """
     task_list_data = file_handler.read(task_list_name)
     if not task_list_data:
@@ -103,7 +103,7 @@ def update_task_list(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -125,7 +125,7 @@ def add_task(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -148,7 +148,7 @@ def update_task(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -172,7 +172,7 @@ def remove_task(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -194,7 +194,7 @@ def display_task_list(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)
@@ -214,7 +214,7 @@ def display_task_description(args, file_handler) -> None:
         file_handler: file handler object
 
     Raises:
-        Exception if sanity check has failed
+        Exception: if sanity check has failed
     """
     try:
         task_list = task_list_sanity_check(args.task_list_name, file_handler)

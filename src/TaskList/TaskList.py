@@ -29,7 +29,7 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # __add_task_from_object
     # -----------------------------------------------------------------------------
-    def __add_task_from_object(self, task_obj):
+    def __add_task_from_object(self, task_obj) -> None:
         """ Adds a Task object to the internal TaskList
 
         Args:
@@ -113,7 +113,7 @@ class TaskList:
         """ Generic method to update a task's properties.
 
         Args:
-            task_id: ID of the task to update.
+            task_id (int): ID of the task to update.
             **kwargs: Keyword arguments representing the task properties to update.
 
         Returns:
@@ -167,11 +167,11 @@ class TaskList:
     # -----------------------------------------------------------------------------
     # display_task_description
     # -----------------------------------------------------------------------------
-    def display_task_description(self, task_id) -> None:  # pragma: no cover
+    def display_task_description(self, task_id: int) -> None:  # pragma: no cover
         """ Creates a default display of the task description.
 
         Args:
-            task_id: ID of the task to update.
+            task_id (int): ID of the task to update.
 
         Returns:
             None
@@ -233,11 +233,11 @@ class TaskList:
     # from_dict
     # -----------------------------------------------------------------------------
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: dict):
         """ Creates a TaskList Object from a given dictionary
 
         Args:
-            data: dictionary data
+            data (dict): dictionary data
 
         Returns:
             TaskList object

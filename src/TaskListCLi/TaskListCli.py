@@ -22,7 +22,7 @@ def initialize_commands():
 # -----------------------------------------------------------------------------
 # handle_command
 # -----------------------------------------------------------------------------
-def handle_command(args, file_handler):
+def handle_command(args, file_handler) -> None:
     """ Handles the mapping between input args and CLI commands
 
     Args:
@@ -76,7 +76,7 @@ def task_list_sanity_check(task_list_name, file_handler):
 # -----------------------------------------------------------------------------
 # create_task_list
 # -----------------------------------------------------------------------------
-def create_task_list(args, file_handler):
+def create_task_list(args, file_handler) -> None:
     """ Creates a new task list and saves it into the data file
 
     Args:
@@ -95,13 +95,12 @@ def create_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # update_task_list
 # -----------------------------------------------------------------------------
-def update_task_list(args, file_handler):
+def update_task_list(args, file_handler) -> None:
     """ Updates an existing task list and saves it into the data file
 
     Args:
         args: command arguments
         file_handler: file handler object
-
 
     Returns:
         None
@@ -118,7 +117,7 @@ def update_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # add_task
 # -----------------------------------------------------------------------------
-def add_task(args, file_handler):
+def add_task(args, file_handler) -> None:
     """ Adds a Task into an existing task list and saves it into the data file
 
     Args:
@@ -141,7 +140,7 @@ def add_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # update_task
 # -----------------------------------------------------------------------------
-def update_task(args, file_handler):
+def update_task(args, file_handler) -> None:
     """ Updates an existing task and saves it into the data file
 
     Args:
@@ -165,7 +164,7 @@ def update_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # remove_task
 # -----------------------------------------------------------------------------
-def remove_task(args, file_handler):
+def remove_task(args, file_handler) -> None:
     """ Removes an existing task from the data file
 
     Args:
@@ -187,13 +186,12 @@ def remove_task(args, file_handler):
 # -----------------------------------------------------------------------------
 # display_task_list
 # -----------------------------------------------------------------------------
-def display_task_list(args, file_handler):
+def display_task_list(args, file_handler) -> None:
     """ Displays the selected task list
 
     Args:
         args: command arguments
         file_handler: file handler object
-
 
     Returns:
         None
@@ -208,13 +206,12 @@ def display_task_list(args, file_handler):
 # -----------------------------------------------------------------------------
 # display_task_description
 # -----------------------------------------------------------------------------
-def display_task_description(args, file_handler):
+def display_task_description(args, file_handler) -> None:
     """ Display the selected task description
 
     Args:
         args: command arguments
         file_handler: file handler object
-
 
     Returns:
         None

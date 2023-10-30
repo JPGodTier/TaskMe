@@ -8,29 +8,26 @@ from src.Common.utils import VALID_PRIORITIES, VALID_PROGRESS_STATUSES
 # Task
 # -----------------------------------------------------------------------------
 class Task:
-    """
-    Initialize a Task object of the TaskMe application
+    """ Initializes a Task object of the TaskMe application
 
-    Attributes
-    ----------
-    __assignee : str
-        The task assignee.
-    __name : str
-        The task name.
-    __due_date : str
-        A string indicating when the task is due, format is dd/mm/yyyy.
-    __priority : str
-        Priority of the task, available values are LOW, MEDIUM or HIGH.
-    __description : str
-        A brief description of the task.
-    __progress_status : str
-        The task progress, available values are PENDING, IN_PROGRESS, COMPLETED.
+    Attributes:
+        __assignee : str
+            The task assignee.
+        __name : str
+            The task name.
+        __due_date : str
+            A string indicating when the task is due, format is dd/mm/yyyy.
+        __priority : str
+            Priority of the task, available values are LOW, MEDIUM or HIGH.
+        __description : str
+            A brief description of the task.
+        __progress_status : str
+            The task progress, available values are PENDING, IN_PROGRESS, COMPLETED.
 
 
-    Note
-    ----
-    When setting values for the 'priority' and 'progress_status' properties,
-    they must be one of the predefined valid options in 'VALID_PRIORITIES' and 'VALID_PROGRESS_STATUSES', respectively.
+    Note:
+        When setting values for the 'priority' and 'progress_status' properties,
+        they must be one of the predefined valid options in 'VALID_PRIORITIES' and 'VALID_PROGRESS_STATUSES', respectively.
 
     """
     def __init__(self,

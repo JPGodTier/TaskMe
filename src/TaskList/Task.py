@@ -100,7 +100,7 @@ class Task:
             new_due_date (str): new due_date to set
 
         Raises:
-            ValueError if new_due_date is not in the following format: dd/mm/YYYY
+            ValueError: if new_due_date is not in the following format: dd/mm/YYYY
 
         """
         try:

@@ -125,9 +125,7 @@ class Task:
             new_priority (str): new priority to set
 
         Raises:
-            ValueError: if new_priority is not in the VALID_PRIORITIES expected values:
-            i.e 'LOW', 'MEDIUM' or 'HIGH'
-
+            ValueError: if new_priority is not in the VALID_PRIORITIES expected values: i.e 'LOW', 'MEDIUM' or 'HIGH'
         """
         if new_priority not in VALID_PRIORITIES:
             logger.error(f"Invalid priority value. Expected one of the following: {VALID_PRIORITIES}"
@@ -162,9 +160,7 @@ class Task:
             new_status (str): new status to set
 
         Raises:
-            ValueError: if new_status is not in the VALID_PROGRESS_STATUSES expected values:
-            i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
-
+            ValueError: if new_status is not in the VALID_PROGRESS_STATUSES expected values: i.e 'PENDING', 'IN_PROGRESS' or 'COMPLETED'
         """
         if new_status not in VALID_PROGRESS_STATUSES:
             logger.error(f"Invalid priority value. Expected one of the following: {VALID_PROGRESS_STATUSES}"

@@ -152,6 +152,7 @@ def startup_msg():
     Returns:
         None
     """
+    # noinspection PyPep8
     logo = f"""
          _____ ___   _____ _   _____  ___ _____ 
         |_   _/ _ \ /  ___| | / /|  \/  ||  ___|

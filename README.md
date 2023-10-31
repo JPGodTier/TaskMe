@@ -22,15 +22,7 @@ You can display each task list to see its list of tasks and their current status
 
 ### Dependencies
 
-See requirements.txt:
-* colorama==0.4.6
-* coverage==7.3.2
-* iniconfig==2.0.0
-* packaging==23.2
-* pluggy==1.3.0
-* pytest==7.4.3
-* pytest-cov==4.1.0
-* pytest-mock==3.12.0
+Refer to `requirements.txt` for a full list of dependencies.
 
 ### Installing
 
@@ -142,11 +134,12 @@ exit
 
 ## Authors
 
-Paul Aristidou (alias JP God Tier)  
-Olivier Lapabe-Goastat (alias GoatStat)
+* Paul Aristidou (alias JP God Tier)  
+* Olivier Lapabe-Goastat (alias GoatStat)
 
 ## Version History
 
+* **1.0.0** - Initial release with core features for task management.
 
 ## Acknowledgments
 

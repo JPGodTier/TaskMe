@@ -39,7 +39,7 @@ class TaskList:
             ValueError: if the given task_obj is not of type Task
         """
         if not isinstance(task_obj, Task):
-            logger.error(f"Expected a Task object.")
+            logger.error("Expected a Task object.")
             raise ValueError("Expected a Task object.")
         self.__tasks.append(task_obj)
 
@@ -189,14 +189,14 @@ class TaskList:
     @property
     def owners(self) -> List[str]:
         return self.__owners
-    
+
     # -----------------------------------------------------------------------------
     # tags getter
     # -----------------------------------------------------------------------------
     @property
     def tags(self) -> List[str]:
         return self.__tags
-    
+
     # -----------------------------------------------------------------------------
     # tasks getter
     # -----------------------------------------------------------------------------

@@ -161,7 +161,7 @@ def startup_msg():
           \_/\_| |_/\____/\_| \_/\_|  |_/\____/ 
                                          v{__version__}"""
 
-    welcome_msg = f"""
+    welcome_msg = """
     Welcome to TASK ME - The ultimate task manager (or not)!
     Type '--help' to see a list of available commands or 'exit' to quit.
     """

@@ -124,7 +124,7 @@ def test_update_task_invalid_id():
     }
     task_list.add_task(**kwargs)
 
-    with pytest.raises(ValueError, match=r"Task ID #100 is out of range.") as exc_info:
+    with pytest.raises(ValueError, match=r"Task ID #100 is out of range.") as _:
         task_list.update_task(100, **kwargs)
 
 
@@ -162,7 +162,7 @@ def test_update_task_nonexistent_attribute():
     kwargs_new = {
         "nonexistent_attribute": "value"
     }
-    with pytest.raises(ValueError, match=r"Task does not have a setter for 'nonexistent_attribute'.") as exc_info:
+    with pytest.raises(ValueError, match=r"Task does not have a setter for 'nonexistent_attribute'.") as _:
         task_list.update_task(1, **kwargs_new)
 
 
@@ -226,5 +226,5 @@ def test_from_dict_with_invalid_task_object():
 
     # Mock the Task.from_dict method to return an invalid object
     with patch('src.TaskList.TaskList.Task.from_dict', return_value="Invalid object"):
-        with pytest.raises(ValueError, match=r"Expected a Task object.") as exc_info:
-            task_list = TaskList.from_dict(task_list_dict)
+        with pytest.raises(ValueError, match=r"Expected a Task object.") as _:
+            TaskList.from_dict(task_list_dict)

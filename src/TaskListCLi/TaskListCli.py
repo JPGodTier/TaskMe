@@ -105,13 +105,10 @@ def update_task_list(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.update_tasklist(owners=args.owners, tags=args.tags)
-        file_handler.write(task_list.to_dict())
-        logger.info(f"Task list '{args.task_list_name}' updated and saved")
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.update_tasklist(owners=args.owners, tags=args.tags)
+    file_handler.write(task_list.to_dict())
+    logger.info(f"Task list '{args.task_list_name}' updated and saved")
 
 
 # -----------------------------------------------------------------------------
@@ -127,14 +124,11 @@ def add_task(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.add_task(assignee=args.assignee, name=args.name, due_date=args.due_date,
-                           priority=args.priority, description=args.description)
-        file_handler.write(task_list.to_dict())
-        logger.info(f"Task '{args.name}' added and saved")
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.add_task(assignee=args.assignee, name=args.name, due_date=args.due_date,
+                       priority=args.priority, description=args.description)
+    file_handler.write(task_list.to_dict())
+    logger.info(f"Task '{args.name}' added and saved")
 
 
 # -----------------------------------------------------------------------------
@@ -150,15 +144,12 @@ def update_task(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.update_task(args.task_id, assignee=args.assignee, name=args.name, due_date=args.due_date,
-                              priority=args.priority, description=args.description,
-                              progress_status=args.progress_status)
-        file_handler.write(task_list.to_dict())
-        logger.info(f"Task '{args.name}' updated and saved")
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.update_task(args.task_id, assignee=args.assignee, name=args.name, due_date=args.due_date,
+                          priority=args.priority, description=args.description,
+                          progress_status=args.progress_status)
+    file_handler.write(task_list.to_dict())
+    logger.info(f"Task '{args.name}' updated and saved")
 
 
 # -----------------------------------------------------------------------------
@@ -174,13 +165,10 @@ def remove_task(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.remove_task(task_id=args.task_id)
-        file_handler.write(task_list.to_dict())
-        logger.info(f"Task  #{args.task_id} removed")
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.remove_task(task_id=args.task_id)
+    file_handler.write(task_list.to_dict())
+    logger.info(f"Task  #{args.task_id} removed")
 
 
 # -----------------------------------------------------------------------------
@@ -196,11 +184,8 @@ def display_task_list(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.display_tasklist()
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.display_tasklist()
 
 
 # -----------------------------------------------------------------------------
@@ -216,8 +201,5 @@ def display_task_description(args, file_handler) -> None:
     Raises:
         Exception: if sanity check has failed
     """
-    try:
-        task_list = task_list_sanity_check(args.task_list_name, file_handler)
-        task_list.display_task_description(args.task_id)
-    except Exception as e:
-        raise
+    task_list = task_list_sanity_check(args.task_list_name, file_handler)
+    task_list.display_task_description(args.task_id)

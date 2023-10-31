@@ -1,3 +1,5 @@
+# flake8: noqa: F405
+
 import argparse
 from src import logger, __version__
 import shlex

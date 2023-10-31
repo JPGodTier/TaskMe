@@ -86,7 +86,6 @@ def create_task_list(args, file_handler) -> None:
         args: command arguments
         file_handler: file handler object
     """
-    # TODO: check how args work when its optional
     task_list = TaskList(args.task_list_name, args.owners, args.tags)
     file_handler.write(task_list.to_dict())
     logger.info(f"Task list '{args.task_list_name}' created and saved")
@@ -103,7 +102,17 @@ def update_task_list(args, file_handler) -> None:
         file_handler: file handler object
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
-    task_list.update_tasklist(owners=args.owners, tags=args.tags)
+
+    # Create a dictionary of only the provided args
+    update_args = {}
+    for args_key, args_value in vars(args).items():
+        # Dismiss attributes not correlated with TaskList
+        # TODO: not optimal, centralize task attributes
+        if args_value is not None and args_key not in ["subcommand", "task_list_name"]:
+            update_args[args_key] = args_value
+
+    task_list.update_tasklist(**update_args)
+
     file_handler.write(task_list.to_dict())
     logger.info(f"Task list '{args.task_list_name}' updated and saved")
 
@@ -134,11 +143,26 @@ def update_task(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
+
+    Raises:
+        Exception: If no Task attributes were provided for the update
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
-    task_list.update_task(args.task_id, assignee=args.assignee, name=args.name, due_date=args.due_date,
-                          priority=args.priority, description=args.description,
-                          progress_status=args.progress_status)
+
+    # Create a dictionary with only provided args
+    update_args = {}
+    for args_key, args_value in vars(args).items():
+        # Dismiss attributes not correlated with Tasks
+        # TODO: not optimal, centralize task attributes
+        if args_value is not None and args_key not in ["subcommand", "task_list_name", "task_id"]:
+            update_args[args_key] = args_value
+
+    if not update_args:
+        logger.error(f"Unable to find arguments to update")
+        raise Exception("No Task attributes to update")
+
+    task_list.update_task(args.task_id, **update_args)
+
     file_handler.write(task_list.to_dict())
     logger.info(f"Task '{args.name}' updated and saved")
 

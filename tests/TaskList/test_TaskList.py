@@ -68,8 +68,8 @@ def test_update_tasklist():
         "tags": ["Fun"]
     }
     task_list.update_tasklist(**kwargs)
-    assert task_list.__owners == ["Jean", "Paul", "Olivier"]
-    assert task_list.__tags == ["Fun"]
+    assert task_list.owners == ["Jean", "Paul", "Olivier"]
+    assert task_list.tags == ["Fun"]
 
 
 # -----------------------------------------------------------------------------

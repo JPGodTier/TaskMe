@@ -90,15 +90,16 @@ class TaskList:
 
         Args:
             **kwargs: Keyword arguments representing the task list properties to update.
-        """
-        attributes_mapping = {
-            "owners": "__owners",
-            "tags": "__tags"
-        }
 
-        for key, attr in attributes_mapping.items():
-            if key in kwargs:
-                setattr(self, attr, kwargs[key])
+        Raises:
+            ValueError: if attribute doesn't have a setter method
+        """
+        for key, value in kwargs.items():
+            if hasattr(self, key) and value is not None:
+                setattr(self, key, value)
+            else:
+                logger.error(f"TaskList does not have a setter for '{key}'.")
+                raise ValueError(f"TaskList does not have a setter for '{key}'.")
 
     # -----------------------------------------------------------------------------
     # update_task
@@ -117,11 +118,13 @@ class TaskList:
             task = self.__tasks[task_id - 1]
 
             for key, value in kwargs.items():
-                if hasattr(task, key):
-                    setattr(task, key, value)
-                else:
-                    logger.error(f"Task ID '{task_id}' is out of range.")
-                    raise ValueError(f"Task does not have a setter for '{key}'.")
+                # Only update if the value is not None
+                if value is not None:
+                    if hasattr(task, key):
+                        setattr(task, key, value)
+                    else:
+                        logger.error(f"Task does not have a setter for '{key}'.")
+                        raise ValueError(f"Task does not have a setter for '{key}'.")
         else:
             logger.error(f"Task ID #{task_id} is out of range.")
             raise ValueError(f"Task ID #{task_id} is out of range.")
@@ -184,18 +187,26 @@ class TaskList:
         return self.__name
 
     # -----------------------------------------------------------------------------
-    # owners getter
+    # owners getter & setter
     # -----------------------------------------------------------------------------
     @property
     def owners(self) -> List[str]:
         return self.__owners
 
+    @owners.setter
+    def owners(self, owners: List[str]):
+        self.__owners = owners
+
     # -----------------------------------------------------------------------------
-    # tags getter
+    # tags getter & estter
     # -----------------------------------------------------------------------------
     @property
     def tags(self) -> List[str]:
         return self.__tags
+
+    @tags.setter
+    def tags(self, tags: List[str]):
+        self.__tags = tags
 
     # -----------------------------------------------------------------------------
     # tasks getter
@@ -233,7 +244,6 @@ class TaskList:
         Returns:
             TaskList object
         """
-        # TODO: tags are optional, adjust accordingly
         task_list = cls(data["taskListName"], data["owners"], data["tags"])
 
         # If the task list possesses some tasks, load them into the task list

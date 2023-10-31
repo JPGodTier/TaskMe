@@ -98,7 +98,7 @@ class TaskMeFileHandler:
         Args:
             task_list_dict: The TaskList dictionary to write.
         """
-        # TODO: might be expensive as the file grows, to investigate
+        # TODO: might be expensive as the file grows, replace by database in the futur
         all_task_lists = self.read_all()
         updated = False
         for idx, task_list in enumerate(all_task_lists):

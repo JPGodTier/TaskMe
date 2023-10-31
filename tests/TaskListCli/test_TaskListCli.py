@@ -192,6 +192,7 @@ def test_add_task_failure():
 # test_update_task
 # -----------------------------------------------------------------------------
 def test_update_task_success():
+    # Mock objects
     mock_file_handler = Mock()
     mock_task_list = Mock()
 
@@ -209,16 +210,21 @@ def test_update_task_success():
         with patch("src.TaskListCLi.TaskListCli.logger", new_callable=Mock) as mock_logger:
             update_task(mock_args, mock_file_handler)
 
+            called_kwargs = mock_task_list.update_task.call_args[1]
+
             # Asserts
-            mock_task_list.update_task.assert_called_once_with(
-                mock_args.task_id,
-                assignee=mock_args.assignee,
-                name=mock_args.name,
-                due_date=mock_args.due_date,
-                priority=mock_args.priority,
-                description=mock_args.description,
-                progress_status=mock_args.progress_status
-            )
+            assert called_kwargs['assignee'] == mock_args.assignee
+            assert called_kwargs['name'] == mock_args.name
+            assert called_kwargs['due_date'] == mock_args.due_date
+            assert called_kwargs['priority'] == mock_args.priority
+            assert called_kwargs['description'] == mock_args.description
+            assert called_kwargs['progress_status'] == mock_args.progress_status
+            assert called_kwargs['assignee'] == mock_args.assignee
+            assert called_kwargs['name'] == mock_args.name
+            assert called_kwargs['due_date'] == mock_args.due_date
+            assert called_kwargs['priority'] == mock_args.priority
+            assert called_kwargs['description'] == mock_args.description
+            assert called_kwargs['progress_status'] == mock_args.progress_status
             mock_file_handler.write.assert_called_once_with(mock_task_list.to_dict())
             mock_logger.info.assert_called_with(f"Task '{mock_args.name}' updated and saved")
 

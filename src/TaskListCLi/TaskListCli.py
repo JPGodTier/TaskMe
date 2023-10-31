@@ -101,9 +101,6 @@ def update_task_list(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.update_tasklist(owners=args.owners, tags=args.tags)
@@ -120,9 +117,6 @@ def add_task(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.add_task(assignee=args.assignee, name=args.name, due_date=args.due_date,
@@ -140,9 +134,6 @@ def update_task(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.update_task(args.task_id, assignee=args.assignee, name=args.name, due_date=args.due_date,
@@ -161,9 +152,6 @@ def remove_task(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.remove_task(task_id=args.task_id)
@@ -180,9 +168,6 @@ def display_task_list(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.display_tasklist()
@@ -197,9 +182,6 @@ def display_task_description(args, file_handler) -> None:
     Args:
         args: command arguments
         file_handler: file handler object
-
-    Raises:
-        Exception: if sanity check has failed
     """
     task_list = task_list_sanity_check(args.task_list_name, file_handler)
     task_list.display_task_description(args.task_id)

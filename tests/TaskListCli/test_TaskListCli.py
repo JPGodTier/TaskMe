@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import Mock, patch
 
-from src.TaskListCLi.TaskListCli import *  # noqa: F405
+from src.TaskListCLi.TaskListCli import * # noqa: F405
 
 # Initializing Cli Commands for help throughout the tests
 COMMANDS = initialize_commands()

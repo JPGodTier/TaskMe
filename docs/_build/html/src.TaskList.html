@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="src.TaskListCLi package" href="src.TaskListCLi.html" /><link rel="prev" title="src.System.TaskMeFileHandler package" href="src.System.TaskMeFileHandler.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>src.TaskList package - TaskMe 0.1 documentation</title>
+        <title>src.TaskList package - TaskMe 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TaskMe 0.1 documentation</div></a>
+      <a href="index.html"><div class="brand">TaskMe 0.0.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">TaskMe 0.1 documentation</span>
+  <span class="sidebar-brand-text">TaskMe 0.0.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -303,8 +303,6 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dl class="simple">
 <dt>Args:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Keyword arguments representing the properties of the task to add.</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
-</dd>
 </dl>
 </dd></dl>
 
@@ -315,7 +313,7 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dl class="simple">
 <dt>Args:</dt><dd><p>task_id: ID of the task to update.</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt>Raises:</dt><dd><p>ValueError: if Task ID is out of range</p>
 </dd>
 </dl>
 </dd></dl>
@@ -324,10 +322,6 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dt class="sig sig-object py" id="src.TaskList.TaskList.TaskList.display_tasklist">
 <span class="sig-name descname"><span class="pre">display_tasklist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.TaskList.TaskList.TaskList.display_tasklist" title="Link to this definition">#</a></dt>
 <dd><p>Creates a default display of the task list.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>None</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -359,7 +353,7 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dl class="simple">
 <dt>Args:</dt><dd><p>task_id (int): ID of the task to be removed.</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt>Raises:</dt><dd><p>ValueError: if task_id is out of range</p>
 </dd>
 </dl>
 </dd></dl>
@@ -392,7 +386,7 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dt>Args:</dt><dd><p>task_id: ID of the task to update.
 <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments representing the task properties to update.</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt>Raises:</dt><dd><p>ValueError: if Task ID is out of range or if attribute doesn’t have a setter method</p>
 </dd>
 </dl>
 </dd></dl>
@@ -403,8 +397,6 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
 <dd><p>Generic method to update a task list’s properties</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Keyword arguments representing the task list properties to update.</p>
-</dd>
-<dt>Returns:</dt><dd><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -518,7 +510,7 @@ they must be one of the predefined valid options in ‘VALID_PRIORITIES’ and �
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=2709fde1"></script>
+</div><script src="_static/documentation_options.js?v=d45e8c67"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

@@ -9,12 +9,12 @@
 import os
 import sys
 
-sys.path.insert(0,os.path.abspath("/Users/olivierlapabe/Documents/MS IA Telecom Paris/BGDIA700 - Kit Big Data/Kit Big Data - Projet/TaskMe"))
+sys.path.insert(0,os.path.abspath("../"))
 
 project = 'TaskMe'
 copyright = '2023, Paul Aristidou, Olivier Lapabe-Goastat'
 author = 'Paul Aristidou, Olivier Lapabe-Goastat'
-release = '0.1'
+release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
